@@ -1,1 +1,3 @@
 node_modules
+/src/cards/cah-cards-compact.json
+/src/cards/cah-cards-full.json
