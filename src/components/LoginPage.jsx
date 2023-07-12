@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useState, useUserContext  } from 'react';
-// MUI config
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,29 +9,16 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-//Fire Auth config
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA-QWQpmF0CpTTpD63OjqxGopCOHgmSB1E",
-  authDomain: "giphy-cad59.firebaseapp.com",
-  projectId: "giphy-cad59",
-  storageBucket: "giphy-cad59.appspot.com",
-  messagingSenderId: "387760845919",
-  appId: "1:387760845919:web:61057e68e4114bc69317ea"
-};
-const app = initializeApp(firebaseConfig);
-
-//Copyright
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Cards Against Humanity App
+        Your Website
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -45,47 +30,15 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState();
-  const { setUser } = useUserContext();
-
-  const auth = getAuth();
-
-  const googleSignIn = (e) => {
-    e.preventDefault();
-  
-    const provider = new GoogleAuthProvider();
-    
-    signInWithRedirect(auth, provider);
-  }
-
-  const handleSubmit = async(event) => {
+export default function SignInSide() {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
-    })
-
-    //    reqURL = 'http://localhost:3006/' + e.target.value;
-  
-    //   try {
-    //     const response = await axios.post(reqURL, {
-    //       username: username,
-    //       password: password
-    //     });
-    //   if (response.status === 200) {
-    //     setUser({ username });
-    //   } else {
-    //     console.error("Error registering");
-    //   }
-    //  }
-    //   catch (err) {
-    //     console.error(err);
-    //   }
-    // };
+    });
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -116,7 +69,7 @@ export default function LoginPage() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-           
+              
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
@@ -131,8 +84,6 @@ export default function LoginPage() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                // value={username}
-                //  onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -143,8 +94,6 @@ export default function LoginPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -158,7 +107,6 @@ export default function LoginPage() {
               >
                 Sign In
               </Button>
-             
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -178,5 +126,4 @@ export default function LoginPage() {
       </Grid>
     </ThemeProvider>
   );
-}
 }
