@@ -24,3 +24,38 @@
 // "Food Pack", "pack": 16
 // "World Wide Web Pack", "pack": 17
 // "Geek Pack", "pack": 18
+
+import React, {useState} from 'react';
+import cardObj from './cah-cards-full.json';
+
+export default function getCards() {
+
+   //const cardObj = require('./cah-cards-full.json');
+   const CAH = JSON.parse(cardObj);
+   const [cardSets, setCardSets] = useState([]);
+
+   for(let i = 0; i < 18; i++) {
+    setCardSets([...cardSets, CAH.name[i]]);
+   }
+
+    
+   return (
+    <div>
+        {
+            CAH && CAH.map((card, index) => {
+                return (
+                    <div key={index}>
+                    {card.name && card.name.map(card => (
+                        <div>
+                            {card.white.map((card) => {
+                                return card.text;
+                            })}
+                        </div>
+                    ))}
+                    </div>
+                )
+            })
+        }
+    </div>
+   );
+}
