@@ -24,3 +24,32 @@
 // "Food Pack", "pack": 16
 // "World Wide Web Pack", "pack": 17
 // "Geek Pack", "pack": 18
+import {React, useState, useEffect, useRef} from 'react';
+const cardRoot = require('./cah-cards-full.json');
+
+export function getCards(props){
+    //
+    const sets = useRef('');
+    const [baseSet, setBaseSet] = useState([]);
+
+
+    useEffect(() => {
+        let tempSets = [];
+        for (var i=0; i< 19; i++) {
+          var index = cardRoot.filter(obj => obj.name==cardRoot[i].name);
+          tempSets.push(index);
+        }
+        sets.current = tempSets;
+        // console.log("CARD ROOT",cardRoot);
+        // console.log("SETS", sets);
+        console.log("BASE SET", baseSet);
+      
+        if (index.length > 0) {
+            console.log(index[0].white);
+            setBaseSet(sets[0]);
+        }
+      }, [sets]);
+    return(
+        <div></div>
+    )
+}
