@@ -1,6 +1,7 @@
 //React
 import * as React from 'react';
-import { useState, useUserContext} from 'react';
+import { useState, useEffect} from 'react';
+import { useUserContext } from '../context/UserContext';
 //MUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -18,6 +19,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import { getAnalytics } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
+//axios
+import axios from 'axios';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCV9Y1u92nqaJjmp044QiS0dWBbA2WUpGs",
@@ -38,7 +41,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Cards Against Humanity
+        Midland Code Academy Cohort 12
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -54,7 +57,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
-  // const { setUser } = useUserContext();
+  const { setUser } = useUserContext();
 
   const auth = getAuth();
 
@@ -88,7 +91,9 @@ export default function LoginPage() {
         const errorMessage = error.message;
         setError(errorMessage);
       });
+      
   }
+  
   
   useEffect(() => {
     checkUserSignIn();
@@ -97,30 +102,35 @@ export default function LoginPage() {
   let reqURL;
 
   //Submit function
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    //Gather user data
-    const data = new FormData(event.currentTarget);
-    username = data.get("email");
-    password = data.get("password");
+       //Gather user data
+       const data = new FormData(event.currentTarget);
+       username = data.get("email");
+       password = data.get("password");   
 
-    //Posts user input data to server for account registration
-    try {
-      const response = await axios.post(reqURL, {
-        username: username,
-        password: password
-      });
-    if (response.status === 200) {
-      setUser({ username });
-    } else {
-      console.error("Error registering");
-    }
-   }
-    catch (err) {
-      console.error(err);
-    }
-  };
+    
+    reqURL = 'http://localhost:3006/' + event.target.value;
+      //Posts user input data to server for account registration
+   try {
+    const response = await axios.post(reqURL, {
+      username: username,
+      password: password
+    }, {
+      event: event
+    });
+  if (response.status === 200) {
+    setUser({ username });
+  } else {
+    console.error("Error registering");
+  }
+ }
+  catch (err) {
+    console.error(err);
+  }
+};
+   
 
   return (
     <ThemeProvider theme={defaultTheme}>
