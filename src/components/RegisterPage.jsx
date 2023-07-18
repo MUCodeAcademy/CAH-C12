@@ -91,11 +91,30 @@ export default function SignUp() {
   }, [])
 
   let reqURL;
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     username = data.get("email");
     password = data.get("password");
+
+    reqURL = 'http://localhost:3006/' + event.target.value;
+    //Posts user input data to server for account registration
+ try {
+  const response = await axios.post(reqURL, {
+    username: username,
+    password: password
+  }, {
+    event: event
+  });
+if (response.status === 200) {
+  setUser({ username });
+} else {
+  console.error("Error registering");
+}
+}
+catch (err) {
+  console.error(err);
+}
   };
 
   return (

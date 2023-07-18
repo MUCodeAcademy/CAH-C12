@@ -76,7 +76,7 @@ export default function LoginPage() {
       .then(async (result) => {
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:3000/register', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName }); 
             console.log("Registered") 
@@ -102,33 +102,13 @@ export default function LoginPage() {
   let reqURL;
 
   //Submit function
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
        //Gather user data
        const data = new FormData(event.currentTarget);
        username = data.get("email");
        password = data.get("password");   
-
-    
-    reqURL = 'http://localhost:3000/' + event.target.value;
-      //Posts user input data to server for account registration
-   try {
-    const response = await axios.post(reqURL, {
-      username: username,
-      password: password
-    }, {
-      event: event
-    });
-  if (response.status === 200) {
-    setUser({ username });
-  } else {
-    console.error("Error registering");
-  }
- }
-  catch (err) {
-    console.error(err);
-  }
 };
    
 
