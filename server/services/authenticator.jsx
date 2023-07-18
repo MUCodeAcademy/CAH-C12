@@ -1,4 +1,4 @@
-const uuidv4 = require('uuidV4');
+const {uuidv4} = require('uuid');
 const bcrypt = require('bcryptjs');
 const connection = require('../config/envConfig.jsx');
 const { response } = require('express');
