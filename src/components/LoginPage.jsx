@@ -1,4 +1,8 @@
+//React
 import * as React from 'react';
+import { useState, useEffect} from 'react';
+import { useUserContext } from '../context/UserContext';
+//MUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,16 +13,35 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+//Firebase
+// import { getAnalytics } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
+//axios
+import axios from 'axios';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCV9Y1u92nqaJjmp044QiS0dWBbA2WUpGs",
+  authDomain: "cah-c12.firebaseapp.com",
+  projectId: "cah-c12",
+  storageBucket: "cah-c12.appspot.com",
+  messagingSenderId: "265583384272",
+  appId: "1:265583384272:web:cb57c01af1436ca89bb0d5",
+  measurementId: "G-VYCMBR7C95"
+};
+
+const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+
+const bcrypt = require("bcryptjs");
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        CAH-Midland C-12
+        Midland Code Academy Cohort 12
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,15 +53,84 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
-  const handleSubmit = (event) => {
+export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState();
+  const { setUser } = useUserContext();
+
+  const auth = getAuth();
+
+  //Google sign-in function
+  const googleSignIn = (e) => {
+    e.preventDefault();
+  
+    const provider = new GoogleAuthProvider();
+    
+    signInWithRedirect(auth, provider);
+  }
+
+// Checks to see if the username and password match with the server
+  const checkUserSignIn = () => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        const user = result.user;
+        try { 
+          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
+          if (response.status == 200) { 
+            setUser({ username: user.displayName }); 
+            console.log("Registered") 
+          } else { 
+            console.error("error");
+           } 
+          } catch (err) { 
+            console.error(err); 
+          } 
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setError(errorMessage);
+      });
+      
+  }
+  
+  
+  useEffect(() => {
+    checkUserSignIn();
+  }, [])
+
+  let reqURL;
+
+  //Submit function
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+
+       //Gather user data
+       const data = new FormData(event.currentTarget);
+       username = data.get("email");
+       password = data.get("password");   
+
+    
+    reqURL = 'http://localhost:3006/' + event.target.value;
+      //Posts user input data to server for account registration
+   try {
+    const response = await axios.post(reqURL, {
+      username: username,
+      password: password
+    }, {
+      event: event
     });
-  };
+  if (response.status === 200) {
+    setUser({ username });
+  } else {
+    console.error("Error registering");
+  }
+ }
+  catch (err) {
+    console.error(err);
+  }
+};
+   
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -107,6 +199,15 @@ export default function SignInSide() {
               >
                 Sign In
               </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={(e) => googleSignIn(e)}
+              >
+                Sign In With Google
+              </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -114,7 +215,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
