@@ -96,3 +96,20 @@ exports.fireAuthSignOn = (req,res) => {
         });
     }    
 };
+
+exports.leaderboard = (req,res) => {
+    const username = req.body.username;
+    //Current thought is update is an array containing ["update type", value]
+    const update = req.body.update;
+    connection.query("SELECT * FROM highest_score WHERE username = ?",[username], (error, results) => {
+        if(error){
+            res.status(500).send({error: error});
+            return;
+        }
+        if(results.length === 0){
+            res.status(400).send({error: "Problem retrieving leaderboard"});
+            return;
+        }
+        res.status(200).send({success: "User data found"});
+    });
+}

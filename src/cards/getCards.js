@@ -24,50 +24,46 @@
 // "Food Pack", "pack": 16
 // "World Wide Web Pack", "pack": 17
 // "Geek Pack", "pack": 18
-import React, {useState} from 'react';
 import cardObj from './cah-cards-full.json';
 
-export default function getCards() {
+export default async function getCards(min, max) {
 
-    const sets = useRef('');
-    const [baseSet, setBaseSet] = useState([]);
+    const finalSet = [];
+    let tempSets = [];
+    let lMin = min;
+    let lMax = max;
 
-
-    useEffect(() => {
-        let tempSets = [];
-        for (var i=0; i< 19; i++) {
-          var index = cardRoot.filter(obj => obj.name==cardRoot[i].name);
-          tempSets.push(index);
+    const verifyInput = (min ,max) => {
+        if(max < 19 && min >= 0){
+            if(min < max) {} else if(max < min){
+                lMax = min;
+                lMin = max;
+            }
+            else{
+                console.error("Unaccesable set bounds");
+            }
         }
-        sets.current = tempSets;
-        // console.log("CARD ROOT",cardRoot);
-        // console.log("SETS", sets);
-        console.log("BASE SET", baseSet);
-      
-        if (index.length > 0) {
-            console.log(index[0].white);
-            setBaseSet(sets[0]);
-        }
-    }, [sets]);
+    }
+
+    verifyInput(lMin,lMax);
+
+    for (var i = lMin; i < lMax; i++) {
+        var index = cardObj.filter(obj => obj.name === cardObj[i].name);
+        var curWhites = index.filter(obj => obj.white === cardObj[i].white)
+        tempSets.push(index);
+    }
+    const sets = tempSets;
+    // console.log("CARD ROOT",cardRoot);
+    // console.log("SETS", sets);
+    console.log("Final SET", finalSet);
     
-   return (
-    <div>
-        {
-            CAH && CAH.map((card, index) => {
-                return (
-                    <div key={index}>
-                    {card.name && card.name.map(card => (
-                        <div>
-                            {card.white.map((card) => {
-                                return card.text;
-                            })}
-                        </div>
-                    ))}
-                    </div>
-                )
-            })
-        }
-    </div>
-   );
+    if (index.length > 0) {
+        console.log(index[0].white);
+        finalSet(sets[0]);
+    }
+    
+   return finalSet.map((val) => ({
+        white: val.white,
+        black: val.black,
+   }));
 }
->>>>>>> 6ed1661c290eae0d99d6c0062227a7e1412ff704

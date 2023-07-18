@@ -1,3 +1,6 @@
 node_modules
 /src/cards/cah-cards-compact.json
-/src/cards/cah-cards-full.json
+/src/cards/cah-cards-full.
+.env
+/src/cards/Temp.jsx
+/src/cards/getCards.js

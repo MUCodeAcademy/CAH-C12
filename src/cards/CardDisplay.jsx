@@ -3,6 +3,7 @@
 
 import React from "react";
 import { Box, Card, CardContent, CardActions } from '@mui/material';
+import getCards from "./getCards";
 
 export default function CardDisplay() {
     const card = (
