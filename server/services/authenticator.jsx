@@ -22,7 +22,7 @@ exports.login = (req, res) => {
         const match = bcrypt.compareSync(password, hashedPassword);
 
         if(match && results.username === username){
-            res.status(200).send({success: "User loggin in"});
+            res.status(200).send({success: "User logged in"});
             return;
         } else {
             res.status(400).send({error: "Incorrect username or password"});
