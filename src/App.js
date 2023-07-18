@@ -8,8 +8,10 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import NavBar from './components/Navbar'
+import NavBar from './components/Navbar';
 import Lobby from "./components/LobbyPage.jsx";
+import Temp from '../src/cards/Temp';
+
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <Route path='/' exact element={<LoginPage/>}/>
         <Route path="/lobbypage" element={<Lobby/>}/>
       </Routes>
+      <Temp/>
       {/* <RegisterPage /> */}
     </Router>
   );
