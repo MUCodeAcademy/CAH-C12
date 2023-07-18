@@ -2,17 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require("../server/routes/auth");
+const cors = require('cors');
 const app = express();
-const port = process.env.DB_PORT || 8080;
-const server = require("http").createServer(app);
-const io = require("socket.io")(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"],
-        credentials: true
-    }
-});
-
+const port = process.env.DB_PORT;
 
 app.use(cors());
 app.use(express.json());

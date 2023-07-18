@@ -5,6 +5,8 @@ import App from './App';
 import StateProvider  from './context/index.js';
 
 
+// import reportWebVitals from './reportWebVitals';
+// import CAHTable from './context/gamePageContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

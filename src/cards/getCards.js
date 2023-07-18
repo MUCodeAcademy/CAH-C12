@@ -24,3 +24,46 @@
 // "Food Pack", "pack": 16
 // "World Wide Web Pack", "pack": 17
 // "Geek Pack", "pack": 18
+import cardObj from './cah-cards-full.json';
+
+export default async function getCards(min, max) {
+
+    const finalSet = [];
+    let tempSets = [];
+    let lMin = min;
+    let lMax = max;
+
+    const verifyInput = (min ,max) => {
+        if(max < 19 && min >= 0){
+            if(min < max) {} else if(max < min){
+                lMax = min;
+                lMin = max;
+            }
+            else{
+                console.error("Unaccesable set bounds");
+            }
+        }
+    }
+
+    verifyInput(lMin,lMax);
+
+    for (var i = lMin; i < lMax; i++) {
+        var index = cardObj.filter(obj => obj.name === cardObj[i].name);
+        var curWhites = index.filter(obj => obj.white === cardObj[i].white)
+        tempSets.push(index);
+    }
+    const sets = tempSets;
+    // console.log("CARD ROOT",cardRoot);
+    // console.log("SETS", sets);
+    console.log("Final SET", finalSet);
+    
+    if (index.length > 0) {
+        console.log(index[0].white);
+        finalSet(sets[0]);
+    }
+    
+   return finalSet.map((val) => ({
+        white: val.white,
+        black: val.black,
+   }));
+}
