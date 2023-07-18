@@ -76,7 +76,7 @@ export default function LoginPage() {
       .then(async (result) => {
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:3000/register', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName }); 
             console.log("Registered") 
@@ -111,7 +111,7 @@ export default function LoginPage() {
        password = data.get("password");   
 
     
-    reqURL = 'http://localhost:3006/' + event.target.value;
+    reqURL = 'http://localhost:3000/' + event.target.value;
       //Posts user input data to server for account registration
    try {
     const response = await axios.post(reqURL, {

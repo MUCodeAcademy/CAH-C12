@@ -1,6 +1,7 @@
 //React
 import * as React from 'react';
-import { useState, useUserContext} from 'react';
+import { useState, useEffect} from 'react';
+import { useUserContext } from '../context/UserContext';
 // MUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,13 +15,34 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+//axios
+import axios from 'axios';
+// import { getAnalytics } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
+
+
+const bcrypt = require("bcryptjs");
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCV9Y1u92nqaJjmp044QiS0dWBbA2WUpGs",
+  authDomain: "cah-c12.firebaseapp.com",
+  projectId: "cah-c12",
+  storageBucket: "cah-c12.appspot.com",
+  messagingSenderId: "265583384272",
+  appId: "1:265583384272:web:cb57c01af1436ca89bb0d5",
+  measurementId: "G-VYCMBR7C95"
+};
+
+const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+      Midland Code Academy Cohort 12
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -33,11 +55,42 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-      const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
-  // const { setUser } = useUserContext();
+  const { setUser } = useUserContext();
 
+  const auth = getAuth();
+
+  const checkUserSignIn = () => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        const user = result.user;
+        try { 
+          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
+          if (response.status == 200) { 
+            setUser({ username: user.displayName }); 
+            console.log("Registered") 
+          } else { 
+            console.error("error");
+           } 
+          } catch (err) { 
+            console.error(err); 
+          } 
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setError(errorMessage);
+      });
+      
+  }
+  
+  
+  useEffect(() => {
+    checkUserSignIn();
+  }, [])
+
+  let reqURL;
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
