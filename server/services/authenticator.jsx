@@ -48,7 +48,7 @@ exports.register = (req,res) => {
     });
 
     connection.query("INSERT INTO users SET ?", {id: id, username: username, password: password}, 
-    (error, results, feilds) => {
+    (error, results, fields) => {
         if(error){
             res.status(500).send({error: error});
             return;
