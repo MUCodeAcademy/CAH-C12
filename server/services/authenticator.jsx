@@ -1,6 +1,6 @@
 const uuidv4 = require('uuidV4');
-const bcrypt = require('bcrypt');
-const connection = require('../config/envConfig');
+const bcrypt = require('bcryptjs');
+const connection = require('../config/envConfig.jsx');
 const { response } = require('express');
 const saltRounds = 12;
 

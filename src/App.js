@@ -22,7 +22,6 @@ function App() {
         <Route path='/' exact element={<LoginPage/>}/>
         <Route path="/lobbypage" element={<Lobby/>}/>
       </Routes>
-      <Temp/>
       {/* <RegisterPage /> */}
     </Router>
   );
