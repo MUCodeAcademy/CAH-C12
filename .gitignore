@@ -3,4 +3,4 @@ node_modules
 /src/cards/cah-cards-full.
 .env
 /src/cards/Temp.jsx
-/src/cards/getCards.js
+/src/cards/getCards.jsx
