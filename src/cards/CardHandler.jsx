@@ -1,25 +1,28 @@
 import React from 'react';
-import getCards from './getCards';
+
 
 const CardHandler = () => {
-    let cards = getCards([]);
-
-    for(let card of json.cards ) {
-        card.white = card.white.map((index) =>
-        Object.assign(
-            {},
-            { text: json.white[index] },
-            { card: cards.length },
-        ));
-        card.black = card.black.map((index) =>
-        Object.assign(
-            {},
-            { text: json.black[index] },
-            { card: cards.length },
-        ));
-        cards.push(card);
+    
+    // Shuffle arrays to make things not so predictable
+    const shuffle = (cardArray) => {
+        let currentIndex = cardArray.length,
+        temporaryValue,
+        randomIndex;
+    
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+    
+        // And swap it with the current element.
+        temporaryValue = cardArray[currentIndex];
+        cardArray[currentIndex] = cardArray[randomIndex];
+        cardArray[randomIndex] = temporaryValue;
+        }
+    
+        return cardArray;
     }
-    return cards;
 }
 
 export default CardHandler;
