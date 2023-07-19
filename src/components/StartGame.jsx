@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+import emitEvents from './sockets/emitEvents';
+import listenEvents from './sockets/listenEvents';
+
+const socket = io('http://localhost:3001');
 
 function StartGame() {
   const [players, setPlayers] = useState([
@@ -12,10 +17,11 @@ function StartGame() {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const { handleGame, handleCards, handlePlay } = emitEvents(socket, players, currentPlayerIndex);
+
 
   useEffect(() => {
     if (!gameStarted) {
-     
       setCurrentJudgeIndex(Math.floor(Math.random() * players.length));
     }
   }, [gameStarted, players.length]);
@@ -36,12 +42,13 @@ function StartGame() {
 
   const handleStartGame = () => {
     setGameStarted(true);
+    handleGame();
   };
 
   const handleDealCards = () => {
     setCardsDealt(true);
-    handleNextPlayer(); 
-  };
+    handleNextPlayer();
+    handleCards();
 
   const handleNextPlayer = () => {
     setIsPlaying(false);
@@ -55,7 +62,13 @@ function StartGame() {
   const handlePlayCard = () => {
     console.log(`${players[currentPlayerIndex].name} played a card.`);
     handleNextPlayer();
+    handlePlay();
   };
+
+  // Use the listeners
+  useEffect(() => {
+    listenEvents(socket, setIsPlaying, setCurrentPlayerIndex);
+  }, [setIsPlaying, setCurrentPlayerIndex]);
 
   return (
     <div>
@@ -83,3 +96,4 @@ function StartGame() {
 }
 
 export default StartGame;
+
