@@ -8,15 +8,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import React, {useState, useEffect} from 'react';
-import {
-  BrowserRouter as Router, 
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
 import NavBar from './components/Navbar';
 import Lobby from "./components/LobbyPage.jsx";
 import Temp from '../src/cards/Temp';
+import CardDisplay from "./cards/CardDisplay.jsx";
+import GetCards from "./cards/getCards.js";
 
 
 
@@ -28,6 +24,7 @@ function App() {
         <Route path='/' exact element={<LoginPage/>}/>
         <Route path="/lobbypage" element={<Lobby/>}/>
       </Routes>
+      <CardDisplay/>
       {/* <RegisterPage /> */}
     </Router>
   );

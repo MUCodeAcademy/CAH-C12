@@ -26,11 +26,8 @@
 // "Geek Pack", "pack": 18
 import cardObj from './cah-cards-full.json';
 
-export default async function getCards(min, max) {
-
+export function getWhiteCards (min, max) {
     const finalSet = [];
-    let black = [];
-    let white = [];
     let lMin = min;
     let lMax = max;
 
@@ -45,28 +42,50 @@ export default async function getCards(min, max) {
             }
         }
     }
-
     verifyInput(lMin,lMax);
+    const whiteCards = [];
 
     for (var i = lMin; i < lMax; i++) {
         var index = cardObj.filter(obj => obj.name === cardObj[i].name);
-        var curWhites = index.filter(obj => obj.white === cardObj[i].white);
-        white.push(curWhites);
-        var curBlacks = index.filter(obj => obj.black === cardObj[i].black);
-        black.push(curBlacks);
-    }
-    // console.log("CARD ROOT",cardRoot);
-    // console.log("SETS", sets);
-    console.log("Final SET", finalSet);
+        var curWhites = index[0].white;
+        for(var z = 0; z < curWhites.length; z++){
+            whiteCards.push(curWhites[z].text);
+        };
+    };
     
-    if (index.length > 0) {
-        console.log(index[0].white);
-    }
-
-    finalSet = [white, black];
-    
-   return finalSet.map((val) => ({
-        white: val.white,
-        black: val.black,
-   }));
+    return whiteCards.map((item,index) => {
+        return <div key={index}>{item}</div>
+    })
 }
+
+export function getBlackCards(min,max) {
+    const finalSet = [];
+    let lMin = min;
+    let lMax = max;
+
+    const verifyInput = (min ,max) => {
+        if(max < 19 && min >= 0){
+            if(min < max) {} else if(max < min){
+                lMax = min;
+                lMin = max;
+            }
+            else{
+                console.error("Unaccesable set bounds");
+            }
+        }
+    }
+    verifyInput(lMin,lMax);
+    const blackCards = [];
+
+    for (var i = lMin; i < lMax; i++) {
+        var index = cardObj.filter(obj => obj.name === cardObj[i].name);
+        var curBlacks = index[0].black;
+        for(var z = 0; z < curBlacks.length; z++){
+            blackCards.push(curBlacks[z].text);
+        };
+    };
+    
+    return blackCards.map((item,index) => {
+        return <div key={index}>{item}</div>
+    })
+};

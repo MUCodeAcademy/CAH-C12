@@ -5,13 +5,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.DB_PORT;
 const server = require("http").createServer(app);
-const io = require("socket.io")(server, {
-    cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"],
-        credentials: true
-    }
-});
+const io = require("socket.io")(server);
 
 app.use(cors());
 app.use(express.json());
@@ -27,7 +21,8 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("Client Disconnected");
     });
-});
+  });
+  server.listen(3006);
 
 app.listen(port, () => {
     console.log("App is listening at: " + port);
