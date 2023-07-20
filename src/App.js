@@ -8,6 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import React, {useState, useEffect} from 'react';
+import React from 'react';
 import NavBar from './components/Navbar';
 import Lobby from "./components/LobbyPage.jsx";
 // import Temp from '../src/cards/Temp';
@@ -23,6 +24,7 @@ function App() {
         <Route path="/lobbypage" element={<Lobby/>}/>
         <Route path="/register" element={<RegisterPage/>}/>
       </Routes>
+      <CardDisplay/>
       {/* <RegisterPage /> */}
     </Router>
   );
