@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useState, useEffect} from 'react';
 import { useUserContext } from '../context/UserContext';
+import { useNavigate } from "react-router-dom";
 //MUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -35,6 +36,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
+
+
 const bcrypt = require("bcryptjs");
 function Copyright(props) {
   return (
@@ -58,6 +61,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
   const { setUser } = useUserContext();
+  const navigate = useNavigate();
 
   const auth = getAuth();
 
@@ -68,7 +72,9 @@ export default function LoginPage() {
     const provider = new GoogleAuthProvider();
     
     signInWithRedirect(auth, provider);
+    navigate("/lobbypage");
   }
+
 
 // Checks to see if the username and password match with the server
   const checkUserSignIn = () => {
