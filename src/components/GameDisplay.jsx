@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import CardDisplay from '../cards/CardDisplay';
+import {WhiteCardDisplay, BlackCardDisplay} from '../cards/CardDisplay';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,7 +32,7 @@ export default function GameDisplay() {
                     <Item>Player 2's Cards</Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>Black Card</Item>
+                    <Item><BlackCardDisplay /></Item>
                 </Grid>
                 <Grid xs={4}>
                     <Item>Player 4's Cards</Item>
@@ -41,7 +41,7 @@ export default function GameDisplay() {
                     <Item>6</Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item><CardDisplay/></Item>
+                    <Item><WhiteCardDisplay/></Item>
                 </Grid>
                 <Grid xs={3}>
                     <Item>8</Item>

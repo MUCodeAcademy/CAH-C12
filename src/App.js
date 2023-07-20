@@ -1,16 +1,11 @@
 import LoginPage from "./components/LoginPage.jsx"
-import RegisterPage from "./components/RegisterPage.jsx"
+//import RegisterPage from "./components/RegisterPage.jsx"
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Routes, 
-  Route,
-  Navigate,
-} from "react-router-dom";
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/Navbar';
 import Lobby from "./components/LobbyPage.jsx";
-// import Temp from '../src/cards/Temp';
+import CardDisplay from "./cards/CardDisplay.jsx";
 
 
 
@@ -23,7 +18,7 @@ function App() {
         <Route path="/lobbypage" element={<Lobby/>}/>
         <Route path="/register" element={<RegisterPage/>}/>
       </Routes>
-      {/* <CardDisplay/> */}
+      <CardDisplay/>
       {/* <RegisterPage /> */}
     </Router>
   );
