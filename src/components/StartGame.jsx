@@ -12,6 +12,7 @@ function StartGame() {
     { id: 3, name: 'Player 3' },
     { id: 4, name: 'Player 4' },
   ]);
+
   const [currentJudgeIndex, setCurrentJudgeIndex] = useState(0);
   const [cardsDealt, setCardsDealt] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -65,7 +66,7 @@ function StartGame() {
     handlePlay();
   };
 
-  // Use the listeners
+  // Use the listeners for the socket connection
   useEffect(() => {
     listenEvents(socket, setIsPlaying, setCurrentPlayerIndex);
   }, [setIsPlaying, setCurrentPlayerIndex]);
@@ -93,7 +94,7 @@ function StartGame() {
       )}
     </div>
   );
-}
+}}
 
 export default StartGame;
 

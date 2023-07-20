@@ -1,12 +1,10 @@
 import LoginPage from "./components/LoginPage.jsx"
 import RegisterPage from "./components/RegisterPage.jsx"
 import './App.css';
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import NavBar from './components/Navbar';
 import Lobby from "./components/LobbyPage.jsx";
-import Temp from '../src/cards/Temp';
 import CardDisplay from "./cards/CardDisplay.jsx";
-import GetCards from "./cards/getCards.js";
 
 
 
