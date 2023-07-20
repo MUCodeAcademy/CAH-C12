@@ -21,8 +21,9 @@ function App() {
       <Routes>
         <Route path='/' exact element={<LoginPage/>}/>
         <Route path="/lobbypage" element={<Lobby/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
       </Routes>
-      <RegisterPage />
+      {/* <RegisterPage /> */}
     </Router>
   );
 }
