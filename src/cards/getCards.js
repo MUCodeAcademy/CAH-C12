@@ -27,7 +27,6 @@
 import cardObj from './cah-cards-full.json';
 
 export function getWhiteCards (min, max) {
-    const finalSet = [];
     let lMin = min;
     let lMax = max;
 
@@ -45,10 +44,10 @@ export function getWhiteCards (min, max) {
     verifyInput(lMin,lMax);
     const whiteCards = [];
 
-    for (var i = lMin; i < lMax; i++) {
-        var index = cardObj.filter(obj => obj.name === cardObj[i].name);
-        var curWhites = index[0].white;
-        for(var z = 0; z < curWhites.length; z++){
+    for (let i = lMin; i < lMax; i++) {
+        let index = cardObj.filter(obj => obj.name === cardObj[i].name);
+        let curWhites = index[0].white;
+        for(let z = 0; z < curWhites.length; z++){
             whiteCards.push(curWhites[z].text);
         };
     };
@@ -59,7 +58,6 @@ export function getWhiteCards (min, max) {
 }
 
 export function getBlackCards(min,max) {
-    const finalSet = [];
     let lMin = min;
     let lMax = max;
 
@@ -77,10 +75,10 @@ export function getBlackCards(min,max) {
     verifyInput(lMin,lMax);
     const blackCards = [];
 
-    for (var i = lMin; i < lMax; i++) {
-        var index = cardObj.filter(obj => obj.name === cardObj[i].name);
-        var curBlacks = index[0].black;
-        for(var z = 0; z < curBlacks.length; z++){
+    for (let i = lMin; i < lMax; i++) {
+        let index = cardObj.filter(obj => obj.name === cardObj[i].name);
+        let curBlacks = index[0].black;
+        for(let z = 0; z < curBlacks.length; z++){
             blackCards.push(curBlacks[z].text);
         };
     };
