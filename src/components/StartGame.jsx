@@ -141,7 +141,7 @@ function StartGame() {
 
 
   useEffect(() => {
-    listenEvents(socket, setIsPlaying, setCurrentPlayerIndex);
+    listenEvents( setIsPlaying, setCurrentPlayerIndex);
   }, [setIsPlaying, setCurrentPlayerIndex]);
 
   return (
