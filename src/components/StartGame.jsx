@@ -20,6 +20,21 @@ function StartGame() {
   const [isPlaying, setIsPlaying] = useState(false);
   const { handleGame, handleCards, handlePlay } = emitEvents(socket, players, currentPlayerIndex);
 
+  const shuffle = (array) => {
+    let currentIndex = array.length;
+    let temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    };
+
+    return array;
+    };
 
   useEffect(() => {
     if (!gameStarted) {
@@ -47,13 +62,56 @@ function StartGame() {
   };
 
   const handleDealCards = () => {
+    if (cardsDealt) {
+      return;
+    }
+    const deckOfCards = ['Card 1', 'Card 2', 'Card 3', /* ...and so on */];
+    const shuffledDeck = shuffle(deckOfCards);
+    const updatedPlayers = players.map((player, index) => ({
+      ...player,
+      hand: shuffledDeck.slice(index * 10, (index + 1) * 10),
+    }));
+    setPlayers(updatedPlayers);
+    socket.emit('dealCards', updatedPlayers);
+    
     setCardsDealt(true);
-    handleNextPlayer();
-    handleCards();
+    
+    };
 
-  const handleNextPlayer = () => {
-    setIsPlaying(false);
-    setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
+  const handleNextPlayer = (selectedCard) => {
+    const currentPlayer = players[currentPlayerIndex];
+    if (currentPlayer.selectedCard === null) {
+        console.log(`${currentPlayer.name} has not played a card.`);
+        return;
+    }
+    const updatedPlayers = [...players];
+    updatedPlayers[currentPlayerIndex].selectedCard = null;
+    setPlayers(updatedPlayers);
+    
+    socket.emit('playCard', { selectedCard: null, currentPlayerIndex });
+
+    const allPlayersPlayedCard = updatedPlayers.every(
+        (player) => player.selectedCard !== null
+    );
+    if (allPlayersPlayedCard) {
+        const roundWinnerIndex = 0;
+        const updatedPlayerWithScore =  [...players];
+        updatedPlayerWithScore[roundWinnerIndex].score += 1;
+        updatedPlayerWithScore.forEach((player) => {
+            player.selectedCard = null;
+        });
+        setPlayers(updatedPlayerWithScore);
+        setCurrentJudgeIndex((prevIndex) => (prevIndex + 1) % players.length);
+        const updatedPlayersForNextRound = players.map((player, index) => ({
+            ...player,
+            hand: shuffledDeck.slice(index, index +1),
+        }));
+        setPlayers(updatedPlayersForNextRound);
+        setIsPlaying(true);
+    } else {
+        setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
+    }
+
   };
 
   const handleNextJudge = () => {
@@ -61,12 +119,27 @@ function StartGame() {
   };
 
   const handlePlayCard = () => {
+    const currentPlayer = players[currentPlayerIndex];
+    if (currentPlayer.selectedCard !== null) {
+      console.log(`${currentPlayer.name} has already played a card.`);
+      return;
+    }
+    
+    const updatedPlayers = [...players];
+    updatedPlayers[currentPlayerIndex].selectedCard = selectedCard;
+    setPlayers(updatedPlayers);
+
+    
+    socket.emit('playCard', { selectedCard: card, currentPlayerIndex });
+    handleNextPlayer();
+  };
+
     console.log(`${players[currentPlayerIndex].name} played a card.`);
     handleNextPlayer();
     handlePlay();
   };
 
-  // Use the listeners for the socket connection
+
   useEffect(() => {
     listenEvents(socket, setIsPlaying, setCurrentPlayerIndex);
   }, [setIsPlaying, setCurrentPlayerIndex]);
@@ -86,7 +159,7 @@ function StartGame() {
           <button onClick={handleNextJudge}>Next Judge</button>
           <button onClick={() => setIsPlaying(true)}>Start Timer</button>
           <button onClick={() => setIsPlaying(false)}>Stop Timer</button>
-          <button onClick={handlePlayCard} disabled={!isPlaying}>
+          <button onClick={() => handlePlayCard('Card 1')} disabled={!isPlaying}>
             Play Card
           </button>
           <p>Current Player: {players[currentPlayerIndex].name}</p>
