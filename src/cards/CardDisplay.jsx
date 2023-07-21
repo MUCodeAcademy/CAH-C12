@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { styled } from "@mui/material";
 import { Box, Grid, Card } from '@mui/material';
-import getCards from "./getCards";
-import { useQuery } from "react-query";
 import { getWhiteCards,getBlackCards } from "./getCards";
+import { Shuffle } from "./CardHandler";
 
-const startSet = 1;
-const endSet = 2;
-const [myCards, setCardSet] = [];
+const startSet = 0;
+const endSet = 19;
 
-// const white = myCards.white;
-// const black = myCards.black;
-//const aCard = white;
 
-const CardStyle = styled((props) => (
+
+const WhiteCardStyle = styled((props) => (
     <Card {...props} variant='outlined' /> ))
     ({
         fontFamily: 'Roboto',
@@ -26,47 +22,74 @@ const CardStyle = styled((props) => (
         padding: '10px'
     });
 
+const BlackCardStyle = styled((props) => (
+    <Card {...props} variant='outlined' /> ))
+    ({
+        fontFamily: 'Roboto',
+        fontWeight: '550',
+        border: '2px solid white',
+        borderRadius: '8px',
+        minHeight: '225px',
+        minWidth: '150px',
+        justifyContent: 'center',
+        padding: '10px',
+        backgroundColor: 'black',
+        color: 'white'
+    });
+
 const GridItem = styled((props) => (
     <Grid item xs {...props} /> ))
     ({
-        flex: 0, 
         margin: 0,
         rowSpacing: 0.5,
         columnSpacing: 0.5
     })
 
+export const BlackCardDisplay = () => {
+    let blackCards = getBlackCards(startSet,endSet);
 
+    Shuffle(blackCards);
 
-const CardDisplay = ({text}) => {
-    // const cardGetter = () => {
-    //     setCardSet = getCards(startSet,endSet);
-    // }
-    let x = getWhiteCards(startSet,endSet);
-    let y = getBlackCards(startSet,endSet);
+    let promptCard = [];
 
-    console.log(x);
-    
-    // useEffect(()=>{
-    //     console.log(myCards);
-    // },[myCards]); 
-
+    for(let i = 1; i >= 1; i--) {
+        promptCard.push(blackCards[i]);
+    }
 
     return (
-        <Box component="span" sx={{ display: 'flex', flex: 1, flexWrap: 'wrap'}}>
-            <Grid container>
-                <GridItem><CardStyle>json data</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem> 
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
-                <GridItem><CardStyle>{text}</CardStyle></GridItem>
+        <Box>
+            <Grid container >
+                {
+                    promptCard.map((data, index) => (
+                        <GridItem key={index}><BlackCardStyle>{data}</BlackCardStyle></GridItem>
+                    ))
+                }
             </Grid>
         </Box>
     )
 }
 
-export default CardDisplay;
+
+export const WhiteCardDisplay = () => {
+    let whiteCards = getWhiteCards(startSet,endSet);
+
+    Shuffle(whiteCards);
+    let userCards = [];
+
+    for(let i = 0; i < 10; i++) {
+        userCards.push(whiteCards[i]);
+    }
+
+    return (
+        <Box>
+            <Grid container>
+                {
+                    userCards.map((data, index) => (
+                        <GridItem key={index}><WhiteCardStyle>{data}</WhiteCardStyle></GridItem>
+                    ))
+                }
+            </Grid>
+        </Box>
+    )
+}
+

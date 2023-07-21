@@ -22,7 +22,6 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signIn
 //axios
 import axios from 'axios';
 
-//Friendly Reminder this info changes for everyone
 const firebaseConfig = {
   apiKey: "AIzaSyCV9Y1u92nqaJjmp044QiS0dWBbA2WUpGs",
   authDomain: "cah-c12.firebaseapp.com",

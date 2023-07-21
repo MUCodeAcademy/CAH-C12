@@ -47,7 +47,7 @@ const Rules = () => {
             The judge will announce the winning white card, giving the winner their black prompt card. 
           </ListItem>
           <ListItem>
-            Every player that submitted a card, must draw a new one. Each player can have up to 7 white cards in their deck at all times. 
+            Every player that submitted a card, must draw a new one. Each player can have up to 10 white cards in their deck at all times. 
           </ListItem>
           <ListItem>
             The next judge (clockwise) then flips the black card to start the next round.
