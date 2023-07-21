@@ -45,16 +45,7 @@ const GridItem = styled((props) => (
         columnSpacing: 0.5
     })
 
-export const BlackCardDisplay = () => {
-    let blackCards = getBlackCards(startSet,endSet);
-
-    Shuffle(blackCards);
-
-    let promptCard = [];
-
-    for(let i = 1; i >= 1; i--) {
-        promptCard.push(blackCards[i]);
-    }
+export const BlackCardDisplay = (promptCard) => {
 
     return (
         <Box>
@@ -70,15 +61,7 @@ export const BlackCardDisplay = () => {
 }
 
 
-export const WhiteCardDisplay = () => {
-    let whiteCards = getWhiteCards(startSet,endSet);
-
-    Shuffle(whiteCards);
-    let userCards = [];
-
-    for(let i = 0; i < 10; i++) {
-        userCards.push(whiteCards[i]);
-    }
+export const WhiteCardDisplay = (userCards) => {
 
     return (
         <Box>

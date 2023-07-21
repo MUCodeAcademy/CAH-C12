@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const CardHandler = () => {
+export const CardHandler = () => {
     
     // Shuffle arrays to make things not so predictable
     const shuffle = (cardArray) => {
@@ -25,4 +25,29 @@ const CardHandler = () => {
     }
 }
 
-export default CardHandler;
+export const PromptHandler = () => {
+    let blackCards = getBlackCards(startSet,endSet);
+
+    Shuffle(blackCards);
+
+    let promptCard = [];
+
+    for(let i = 1; i >= 1; i--) {
+        promptCard.push(blackCards[i]);
+    };
+    
+    return promptCard;
+}
+
+export const UserHandler = () => {
+    let whiteCards = getWhiteCards(startSet,endSet);
+
+    Shuffle(whiteCards);
+    let userCards = [];
+
+    for(let i = 0; i < 10; i++) {
+        userCards.push(whiteCards[i]);
+    };
+
+    return userCards;
+}
