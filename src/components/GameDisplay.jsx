@@ -50,37 +50,3 @@ export default function GameDisplay() {
         </Box>
     )
 }
-    return(
-        <Box sx={{ width: '100%' }}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid xs={3}>
-                    <Item>1</Item>
-                </Grid>
-                <Grid xs={6}>
-                    <Item>Player 3's Cards</Item>
-                </Grid>
-                <Grid xs={3}>
-                    <Item>3</Item>
-                </Grid>
-                <Grid xs={4}>
-                    <Item>Player 2's Cards</Item>
-                </Grid>
-                <Grid xs={4}>
-                    <Item><BlackCardDisplay /></Item>
-                </Grid>
-                <Grid xs={4}>
-                    <Item>Player 4's Cards</Item>
-                </Grid>
-                <Grid xs={3}>
-                    <Item>6</Item>
-                </Grid>
-                <Grid xs={6}>
-                    <Item><WhiteCardDisplay/></Item>
-                </Grid>
-                <Grid xs={3}>
-                    <Item>8</Item>
-                </Grid>
-            </Grid>
-        </Box>
-    )
-}
