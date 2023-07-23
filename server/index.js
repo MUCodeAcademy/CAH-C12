@@ -106,7 +106,7 @@ socket.on("winner", (suspectedWinner) => {
         console.log("Client Disconnected");
     });
   });
-  server.listen(3006);
+  server.listen(3306);
 
 app.listen(port, () => {
     console.log("App is listening at: " + port);

@@ -7,13 +7,13 @@ import WinDisplay from './WinDisplay';
 import GameDisplay from './GameDisplay';
 
 export default function GamePage(props) {
-    //
     const {user} = useUserContext;
+    //useLobbyContext
     const lobbyId = props.lobbyId;
 
-
+    //soon to be state variables
     const started = false;
-    const playing = false;
+    const playersTurn = false;
     const finished = false;
 
     const handleStart = () => {
@@ -27,19 +27,20 @@ export default function GamePage(props) {
     const handleEnding = () => {
         //
     }
+
     return(
         <>
            <div> - GamePage - </div>
            <Rules/>
-           {started && 
-            <div>
-                This is a temp for start
-                <StartGame/>
-            </div>
-            }
-            {playing && 
+           {started &&  
             <div>
                 This is the playing state for the game
+                <GameDisplay/>
+            </div>
+            }
+            {playersTurn && 
+            <div>
+                This should render an alternate game display with a timer and "select Card" button
                 <GameDisplay/>
             </div>
             }

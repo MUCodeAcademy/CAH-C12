@@ -53,6 +53,7 @@ function Copyright(props) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
+// TODO Routes to Lobby
 
 const defaultTheme = createTheme();
 
@@ -64,12 +65,15 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const auth = getAuth();
+  let reqURL = '';
 
   //Google sign-in function
-  const googleSignIn = (e) => {
+  const googleSignIn = async (e) => {
     e.preventDefault();
   
     const provider = new GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/plus.login');
+    signInWithRedirect(provider);
     
     signInWithRedirect(auth, provider);
     navigate("/lobbypage");
@@ -80,63 +84,77 @@ export default function LoginPage() {
   const checkUserSignIn = () => {
     getRedirectResult(auth)
       .then(async (result) => {
+        if(result.credential){
+          //
+          var token = result.credential.accessToken;
+          console.log('User veified w/ token');
+        } else {
+          setError({error: 'Unable to verify user'});
+        }
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:3006/auth/fireAuthSignOn', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName,
             type: 'google' }); 
             console.log("Registered") 
           } else { 
             console.error("error");
-           } 
-          } catch (err) { 
-            console.error(err); 
           } 
+        } catch (err) { 
+          console.error(err); 
+        } 
       })
       .catch((error) => {
         const errorMessage = error.message;
         setError(errorMessage);
       });
       
-  }
+  };
+
+  const handleInput = (e,inputType) => {
+    let value = e.target.value;
+    if(inputType === 'username'){
+        setUsername(value);
+    } else if(inputType === 'password'){
+        setPassword(value);
+    }
+    console.log("changed")
+  };
   
   
   useEffect(() => {
     checkUserSignIn();
-  }, [])
-
-  let reqURL;
+  }, []);
 
   //Submit function
   const handleSubmit = async (event) => {
     event.preventDefault();
 
        //Gather user data
-      //  const data = new (event.currentTarget);
-      //  username = data.get("username");
-      //  password = data.get("password");   
-       reqURL = 'http://localhost:8080/auth/' + event.target.value;
-       //Posts user input data to server for account registration
-       try {
-         console.log("hello")
-         const response = await axios.post(reqURL, {
-           username: username,
-           password: password
-         }, {
-           event: event
-       });
-         if (response.status === 200) {
-           setUser({ username });
-         } else {
-           console.error("Error registering");
-         }
-       } catch (err) {
-         console.error(err);
-         if (err.response && err.response.status === 400) {
-           setError(err.response.data.error);
-         }
-       }
+       const data = new FormData(event.currentTarget);
+       username = data.get("email");
+       password = data.get("password");   
+
+    
+    reqURL = 'http://localhost:3006/' + event.target.value;
+      //Posts user input data to server for account registration
+   try {
+    const response = await axios.post(reqURL, {
+      username: username,
+      password: password
+    }, {
+      event: event
+    });
+  if (response.status === 200) {
+    setUser({ username });
+  } else {
+    console.error("Error registering");
+  }
+ }
+  catch (err) {
+    console.error(err);
+  }
 };
    
 
@@ -175,9 +193,7 @@ export default function LoginPage() {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <form>
-            <label htmlFor='username'>Username</label>
-              <input
+              <TextField
                 margin="normal"
                 required
                 fullWidth
@@ -186,8 +202,6 @@ export default function LoginPage() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
               />
               <label htmlFor='password'>Password</label>
               <input
@@ -199,8 +213,6 @@ export default function LoginPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
               </form>
               <FormControlLabel
