@@ -50,6 +50,7 @@ function Copyright(props) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
+// TODO Routes to Lobby
 
 const defaultTheme = createTheme();
 
@@ -60,76 +61,88 @@ export default function LoginPage() {
   const { setUser } = useUserContext();
 
   const auth = getAuth();
+  let reqURL = '';
 
   //Google sign-in function
-  const googleSignIn = (e) => {
+  const googleSignIn = async (e) => {
     e.preventDefault();
   
     const provider = new GoogleAuthProvider();
-    
-    signInWithRedirect(auth, provider);
+    provider.addScope('https://www.googleapis.com/auth/plus.login');
+    signInWithRedirect(provider);
   }
 
 // Checks to see if the username and password match with the server
   const checkUserSignIn = () => {
     getRedirectResult(auth)
       .then(async (result) => {
+        if(result.credential){
+          //
+          var token = result.credential.accessToken;
+          console.log('User veified w/ token');
+        } else {
+          setError({error: 'Unable to verify user'});
+        }
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:3006/auth/fireAuthSignOn', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName }); 
             console.log("Registered") 
           } else { 
             console.error("error");
-           } 
-          } catch (err) { 
-            console.error(err); 
           } 
+        } catch (err) { 
+          console.error(err); 
+        } 
       })
       .catch((error) => {
         const errorMessage = error.message;
         setError(errorMessage);
       });
       
-  }
+  };
+
+  const handleInput = (e,inputType) => {
+    let value = e.target.value;
+    if(inputType === 'username'){
+        setUsername(value);
+    } else if(inputType === 'password'){
+        setPassword(value);
+    }
+    console.log("changed")
+  };
   
   
   useEffect(() => {
     checkUserSignIn();
-  }, [])
-
-  let reqURL;
+  }, []);
 
   //Submit function
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e,logType) => {
+    e.preventDefault();
 
-       //Gather user data
-       const data = new FormData(event.currentTarget);
-       username = data.get("email");
-       password = data.get("password");   
-
-    
-    reqURL = 'http://localhost:3006/' + event.target.value;
-      //Posts user input data to server for account registration
-   try {
-    const response = await axios.post(reqURL, {
-      username: username,
-      password: password
-    }, {
-      event: event
-    });
-  if (response.status === 200) {
-    setUser({ username });
-  } else {
-    console.error("Error registering");
-  }
- }
-  catch (err) {
-    console.error(err);
-  }
-};
+    //Should work for both types when Server access is up
+    reqURL = 'http://localhost:3006/auth/' + logType;
+    //Posts user input data to server for account registration
+    try {
+      const response = await axios.post(reqURL, {
+        username: username,
+        password: password
+      });
+      if (response.status === 200) {
+        setUser({ username });
+      } else {
+        console.error("Error registering");
+      }
+    }
+    catch (err) {
+      console.error(err);
+      if (err.response && err.response.status === 400) {
+        setError(err.response.data.error);
+      }
+    }
+  };
    
 
   return (
@@ -166,7 +179,7 @@ export default function LoginPage() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={(e) => handleSubmit(e,'login')} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -176,6 +189,7 @@ export default function LoginPage() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e) => handleInput(e,"username")}
               />
               <TextField
                 margin="normal"
@@ -186,6 +200,7 @@ export default function LoginPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => handleInput(e,"password")}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

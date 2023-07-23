@@ -42,6 +42,9 @@ function StartGame() {
     }
   }, [isPlaying, currentPlayerIndex]);
 
+  //Main game function will send both info and a "true" value out
+  //The info will be game settings
+  //True will be used to change "started" and render the game
   const handleStartGame = () => {
     setGameStarted(true);
     handleGame();
