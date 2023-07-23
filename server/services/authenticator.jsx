@@ -5,9 +5,9 @@ const { response } = require('express');
 const saltRounds = 12;
 
 exports.login = (req, res) => {
-    const username = req.body.username;
-    const password = bcrypt.hashSync(req.body.password, saltRounds);
-    connection.query("SELECT * FROM users WHERE username = ?", [username, password], (error, results) => {
+    const { username, password } = req.body;
+    
+    connection.query('SELECT * FROM users WHERE username = ?', [username, password], (error, results) => {
         if(error) {
             res.status(500).send({error: error});
             return;
@@ -36,7 +36,7 @@ exports.register = (req,res) => {
     const password = bcrypt.hashSync(req.body.password, saltRounds);
     const id = uuidv4();
 
-    connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
+    connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
         if(error) {
             res.status(500).send({error: error});
             return;
@@ -47,7 +47,7 @@ exports.register = (req,res) => {
         }
     });
 
-    connection.query("INSERT INTO users SET ?", {id: id, username: username, password: password}, 
+    connection.query('INSERT INTO users SET ?', {id: id, username: username, password: password}, 
     (error, results, fields) => {
         if(error){
             res.status(500).send({error: error});
@@ -61,7 +61,7 @@ exports.fireAuthSignOn = (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
     if(password){
-        connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
+        connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
                 return;
@@ -77,7 +77,7 @@ exports.fireAuthSignOn = (req,res) => {
     } else {
         password = uuidv4();
         const userId = uuidv4();
-        connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
+        connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
                 return;
@@ -87,7 +87,7 @@ exports.fireAuthSignOn = (req,res) => {
                 return;
             }
         });
-        connection.query("INSERT INTO users SET ?", {userId: userId, username: username, password: password}, (error, results) => {
+        connection.query('INSERT INTO users SET ?', {userId: userId, username: username, password: password}, (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
                 return;
@@ -101,7 +101,7 @@ exports.leaderboard = (req,res) => {
     const username = req.body.username;
     //Current thought is update is an array containing ["update type", value]
     const update = req.body.update;
-    connection.query("SELECT * FROM highest_score WHERE username = ?",[username], (error, results) => {
+    connection.query('SELECT * FROM highest_score WHERE username = ?',[username], (error, results) => {
         if(error){
             res.status(500).send({error: error});
             return;

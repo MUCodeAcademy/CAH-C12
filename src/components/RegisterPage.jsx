@@ -63,11 +63,12 @@ export default function SignUp() {
   const auth = getAuth();
 
   const checkUserSignIn = () => {
+    console.log("world")
     getRedirectResult(auth)
       .then(async (result) => {
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:8080/auth/register', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName }); 
             console.log("Registered") 
@@ -91,30 +92,34 @@ export default function SignUp() {
   }, [])
 
   let reqURL;
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    username = data.get("email");
-    password = data.get("password");
-
-    reqURL = 'http://localhost:3006/' + event.target.value;
+    // const data = new FormData(event.currentTarget);
+    // username = data.get("username");
+    // password = data.get("password");
+  
+    reqURL = 'http://localhost:8080/auth/' + event.target.value;
     //Posts user input data to server for account registration
- try {
-  const response = await axios.post(reqURL, {
-    username: username,
-    password: password
-  }, {
-    event: event
-  });
-if (response.status === 200) {
-  setUser({ username });
-} else {
-  console.error("Error registering");
-}
-}
-catch (err) {
-  console.error(err);
-}
+    try {
+      console.log("hello")
+      const response = await axios.post(reqURL, {
+        username: username,
+        password: password
+      }, {
+        event: event
+    });
+      if (response.status === 200) {
+        setUser({ username });
+      } else {
+        console.error("Error registering");
+      }
+    } catch (err) {
+      console.error(err);
+      if (err.response && err.response.status === 400) {
+        setError(err.response.data.error);
+      }
+    }
   };
 
   return (
@@ -136,27 +141,7 @@ catch (err) {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+             
               <Grid item xs={12}>
                 <TextField
                   required
@@ -165,6 +150,8 @@ catch (err) {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={username}
+                 onChange={(e) => setUsername(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -176,6 +163,8 @@ catch (err) {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -190,6 +179,11 @@ catch (err) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              value = 'register' primary="true"
+             disabled={username.length < 4 || password.length < 4}
+              onClick={(e) => {
+               handleSubmit(e);
+          }}
             >
               Sign Up
             </Button>

@@ -84,7 +84,8 @@ export default function LoginPage() {
         try { 
           const response = await axios.post('http://localhost:3006/register', { username: user.displayName }); 
           if (response.status == 200) { 
-            setUser({ username: user.displayName }); 
+            setUser({ username: user.displayName,
+            type: 'google' }); 
             console.log("Registered") 
           } else { 
             console.error("error");
@@ -108,13 +109,34 @@ export default function LoginPage() {
   let reqURL;
 
   //Submit function
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
        //Gather user data
-       const data = new FormData(event.currentTarget);
-       username = data.get("email");
-       password = data.get("password");   
+      //  const data = new (event.currentTarget);
+      //  username = data.get("username");
+      //  password = data.get("password");   
+       reqURL = 'http://localhost:8080/auth/' + event.target.value;
+       //Posts user input data to server for account registration
+       try {
+         console.log("hello")
+         const response = await axios.post(reqURL, {
+           username: username,
+           password: password
+         }, {
+           event: event
+       });
+         if (response.status === 200) {
+           setUser({ username });
+         } else {
+           console.error("Error registering");
+         }
+       } catch (err) {
+         console.error(err);
+         if (err.response && err.response.status === 400) {
+           setError(err.response.data.error);
+         }
+       }
 };
    
 
@@ -153,7 +175,9 @@ export default function LoginPage() {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
+            <form>
+            <label htmlFor='username'>Username</label>
+              <input
                 margin="normal"
                 required
                 fullWidth
@@ -162,8 +186,11 @@ export default function LoginPage() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
-              <TextField
+              <label htmlFor='password'>Password</label>
+              <input
                 margin="normal"
                 required
                 fullWidth
@@ -172,16 +199,39 @@ export default function LoginPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
+              </form>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+                <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                value = 'register' 
+                primary="true"
+               disabled={username.length < 4 || password.length < 4}
+               onClick={(e) => {
+                handleSubmit(e);
+          }}
+              >
+               Register
+              </Button>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                value = 'login' 
+                primary="true"
+               disabled={username.length < 4 || password.length < 4}
+               onClick={(e) => {
+              handleSubmit(e);
+          }}
               >
                 Sign In
               </Button>
@@ -196,14 +246,14 @@ export default function LoginPage() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2">
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
+                  {/* <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
-                  </Link>
+                  </Link> */}
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
