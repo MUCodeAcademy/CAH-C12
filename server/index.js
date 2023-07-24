@@ -21,8 +21,8 @@ app.use('/auth', authRoutes);
 //-------------------------------------------------------------------------------
 //CONNECTING
 
-io.on("connection", (socket) => {
-    console.log(`New Client Connected: ${socket.id}`);
+// io.on("connection", (socket) => {
+//     console.log(`New Client Connected: ${socket.id}`);
 
 
 
@@ -102,11 +102,11 @@ socket.on("winner", (suspectedWinner) => {
 
 //--------------------------------------------------------------------------- 
 //DISCONNECTING 
-   socket.on("disconnect", () => {
-        console.log("Client Disconnected");
-    });
-  });
-  server.listen(3306);
+//    socket.on("disconnect", () => {
+//         console.log("Client Disconnected");
+//     });
+//   });
+
 
 app.listen(port, () => {
     console.log("App is listening at: " + port);

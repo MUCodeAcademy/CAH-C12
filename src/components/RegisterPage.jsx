@@ -68,7 +68,7 @@ export default function SignUp() {
       .then(async (result) => {
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:8080/auth/register', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:3006/auth/register', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName }); 
             console.log("Registered") 
@@ -99,7 +99,7 @@ export default function SignUp() {
     // username = data.get("username");
     // password = data.get("password");
   
-    reqURL = 'http://localhost:8080/auth/' + event.target.value;
+    reqURL = 'http://localhost:3006/auth/' + event.target.value;
     //Posts user input data to server for account registration
     try {
       console.log("hello")
@@ -144,8 +144,6 @@ export default function SignUp() {
              
               <Grid item xs={12}>
                 <TextField
-                  required
-                  fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
