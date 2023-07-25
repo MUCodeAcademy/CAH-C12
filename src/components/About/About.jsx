@@ -151,7 +151,10 @@ function About() {
                             variant="body2"
                             style={{ marginLeft: "15px", textAlign: "left" }}
                         >
-                            Placeholder Text
+                            Hello, I'm Trevor Parks, I joined the Midland Code Academy to give me the skills to create full-stack applications. 
+                            I'm interested in business, finance, and cryptocurrency in relation to web development. 
+                            I am grateful for the code academy program for teaching me a million little things about what it 
+                            means to be a developer, and I never want to stop learning!
                         </Typography>
                         <IconButton
                             color="secondary"
