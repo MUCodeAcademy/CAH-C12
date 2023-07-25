@@ -23,13 +23,13 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signIn
 import axios from 'axios';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCV9Y1u92nqaJjmp044QiS0dWBbA2WUpGs",
-  authDomain: "cah-c12.firebaseapp.com",
-  projectId: "cah-c12",
-  storageBucket: "cah-c12.appspot.com",
-  messagingSenderId: "265583384272",
-  appId: "1:265583384272:web:cb57c01af1436ca89bb0d5",
-  measurementId: "G-VYCMBR7C95"
+  apiKey: "AIzaSyD5UnogGBXCUCoBhfov3c6YFXLWSTk0vag",
+  authDomain: "cahgroupproject.firebaseapp.com",
+  projectId: "cahgroupproject",
+  storageBucket: "cahgroupproject.appspot.com",
+  messagingSenderId: "465826634355",
+  appId: "1:465826634355:web:764f2593a08d364b9be806",
+  measurementId: "G-PKWHF889C6"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -69,7 +69,7 @@ export default function LoginPage() {
   
     const provider = new GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/plus.login');
-    signInWithRedirect(provider);
+    signInWithRedirect(auth, provider);
   }
 
 // Checks to see if the username and password match with the server
@@ -85,7 +85,7 @@ export default function LoginPage() {
         }
         const user = result.user;
         try { 
-          const response = await axios.post('http://localhost:3006/auth/fireAuthSignOn', { username: user.displayName }); 
+          const response = await axios.post('http://localhost:8080/auth/fireAuthSignOn', { username: user.displayName }); 
           if (response.status == 200) { 
             setUser({ username: user.displayName }); 
             console.log("Registered") 
@@ -123,7 +123,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     //Should work for both types when Server access is up
-    reqURL = 'http://localhost:3006/auth/' + logType;
+    reqURL = 'http://localhost:8080/auth/' + logType;
     //Posts user input data to server for account registration
     try {
       const response = await axios.post(reqURL, {

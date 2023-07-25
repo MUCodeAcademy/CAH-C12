@@ -1,4 +1,4 @@
-const {uuidv4} = require('uuid');
+const { uuid } = require('uuid');
 const bcrypt = require('bcryptjs');
 const connection = require('../config/envConfig.jsx');
 const { response } = require('express');
@@ -34,7 +34,7 @@ exports.login = (req, res) => {
 exports.register = (req,res) => {
     const username = req.body.username;
     const password = bcrypt.hashSync(req.body.password, saltRounds);
-    const id = uuidv4();
+    const id = uuid();
 
     connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
         if(error) {
@@ -47,7 +47,7 @@ exports.register = (req,res) => {
         }
     });
 
-    connection.query("INSERT INTO users SET ?", {id: id, username: username, password: password}, 
+    connection.query("INSERT INTO users SET ?", {user_id: id, username: username, password: password}, 
     (error, results, fields) => {
         if(error){
             res.status(500).send({error: error});
@@ -60,6 +60,7 @@ exports.register = (req,res) => {
 exports.fireAuthSignOn = (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const user_id = uuid();
     if(password){
         connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
             if(error) {
@@ -75,8 +76,7 @@ exports.fireAuthSignOn = (req,res) => {
             }
         })
     } else {
-        password = uuidv4();
-        const userId = uuidv4();
+        password = uuid();
         connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
@@ -87,7 +87,7 @@ exports.fireAuthSignOn = (req,res) => {
                 return;
             }
         });
-        connection.query("INSERT INTO users SET ?", {userId: userId, username: username, password: password}, (error, results) => {
+        connection.query("INSERT INTO users SET ?", {user_id: user_id, username: username, password: password}, (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
                 return;

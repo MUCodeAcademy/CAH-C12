@@ -1,8 +1,11 @@
 import React from "react";
 import { styled } from "@mui/material";
 import { Box, Grid, Card } from '@mui/material';
+import CardContent from "@mui/material/CardContent";
+import { useCardDisplayContext } from "../context/CardDisplayContext";
 
-
+let playersTurn = false;
+//const {playersTurn} = useGameDisplayContext();
 
 const WhiteCardStyle = styled((props) => (
     <Card {...props} variant='outlined' /> ))
@@ -32,6 +35,7 @@ const BlackCardStyle = styled((props) => (
         color: 'white'
     });
 
+
 const GridItem = styled((props) => (
     <Grid item xs {...props} /> ))
     ({
@@ -41,13 +45,31 @@ const GridItem = styled((props) => (
     })
 
 export const BlackCardDisplay = (promptCard) => {
-
+    //Bring to state
+    const {setSelectedCard} = useCardDisplayContext();
     return (
         <Box>
             <Grid container >
                 {
                     promptCard.map((data, index) => (
-                        <GridItem key={index}><BlackCardStyle>{data}</BlackCardStyle></GridItem>
+                        <GridItem key={index}>
+                            <BlackCardStyle>
+                                <CardContent>
+                                    {data}
+                                    {playersTurn && <Button
+                                        variant="solid"
+                                        size="sm"
+                                        color="primary"
+                                        aria-label="Explore Bahamas Islands"
+                                        sx={{ ml: "auto", fontWeight: 600 }}
+                                        onClick={() => {
+                                            setSelectedCard(data);
+                                    }}>
+                                        Submit Card
+                                    </Button>}
+                                </CardContent>
+                            </BlackCardStyle>
+                        </GridItem>
                     ))
                 }
             </Grid>
@@ -57,13 +79,31 @@ export const BlackCardDisplay = (promptCard) => {
 
 
 export const WhiteCardDisplay = (userCards) => {
-
+    //Bring to state
+    const [selectedCard, setSelectedCard] = useState("");
     return (
         <Box>
             <Grid container>
                 {
                     userCards.map((data, index) => (
-                        <GridItem key={index}><WhiteCardStyle>{data}</WhiteCardStyle></GridItem>
+                        <GridItem key={index}>
+                            <WhiteCardStyle>
+                                <CardContent>
+                                    {data}
+                                    {playersTurn && <Button
+                                        variant="solid"
+                                        size="sm"
+                                        color="primary"
+                                        aria-label="Explore Bahamas Islands"
+                                        sx={{ ml: "auto", fontWeight: 600 }}
+                                        onClick={() => {
+                                            setSelectedCard(data);
+                                    }}>
+                                        Submit Card
+                                    </Button>}
+                                </CardContent>
+                            </WhiteCardStyle>
+                        </GridItem>
                     ))
                 }
             </Grid>
