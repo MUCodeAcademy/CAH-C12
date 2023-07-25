@@ -1,9 +1,12 @@
+import { LobbyProvider } from './LobbyContext';
 import { UserProvider } from './UserContext';
 
 export default function StateProvider(props) {
     return (
         <UserProvider>
-            {props.children}
+            <LobbyProvider>
+                {props.children}
+            </LobbyProvider>
         </UserProvider>
     )
 }
