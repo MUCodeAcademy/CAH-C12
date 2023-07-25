@@ -1,4 +1,4 @@
-const {uuidv4} = require('uuid');
+const { uuid } = require('uuidv4');
 const bcrypt = require('bcryptjs');
 const connection = require('../config/envConfig.jsx');
 const { response } = require('express');
@@ -6,8 +6,9 @@ const saltRounds = 12;
 
 exports.login = (req, res) => {
     const username = req.body.username;
-    const password = bcrypt.hashSync(req.body.password, saltRounds);
-    connection.query("SELECT * FROM users WHERE username = ?", [username, password], (error, results) => {
+    const password = req.body.password;
+
+    connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
         if(error) {
             res.status(500).send({error: error});
             return;
@@ -21,8 +22,8 @@ exports.login = (req, res) => {
         const hashedPassword = results[0].password;
         const match = bcrypt.compareSync(password, hashedPassword);
 
-        if(match && results.username === username){
-            res.status(200).send({success: "User loggin in"});
+        if(match && results[0].username === username){
+            res.status(200).send({success: "User logged in"});
             return;
         } else {
             res.status(400).send({error: "Incorrect username or password"});
@@ -34,7 +35,7 @@ exports.login = (req, res) => {
 exports.register = (req,res) => {
     const username = req.body.username;
     const password = bcrypt.hashSync(req.body.password, saltRounds);
-    const id = uuidv4();
+    const id = uuid();
 
     connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
         if(error) {
@@ -47,7 +48,7 @@ exports.register = (req,res) => {
         }
     });
 
-    connection.query("INSERT INTO users SET ?", {id: id, username: username, password: password}, 
+    connection.query("INSERT INTO users SET ?", {user_id: id, username: username, password: password}, 
     (error, results, fields) => {
         if(error){
             res.status(500).send({error: error});
@@ -75,8 +76,8 @@ exports.fireAuthSignOn = (req,res) => {
             }
         })
     } else {
-        password = uuidv4();
-        const userId = uuidv4();
+        password = uuid();
+        const userId = uuid();
         connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
@@ -87,7 +88,7 @@ exports.fireAuthSignOn = (req,res) => {
                 return;
             }
         });
-        connection.query("INSERT INTO users SET ?", {userId: userId, username: username, password: password}, (error, results) => {
+        connection.query("INSERT INTO users SET ?", {user_id: userId, username: username, password: password}, (error, results) => {
             if(error) {
                 res.status(500).send({error: error});
                 return;
