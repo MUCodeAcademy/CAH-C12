@@ -1,7 +1,6 @@
-import React from "react";
-import { styled } from "@mui/material";
-import { Box, Grid, Card } from '@mui/material';
-
+import React, {useState, useEffect} from "react";
+import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
+import { PromptHandler, UserHandler } from "./CardHandler";
 
 
 const WhiteCardStyle = styled((props) => (
@@ -40,7 +39,11 @@ const GridItem = styled((props) => (
         columnSpacing: 0.5
     })
 
+let playersTurn = false;
+//const {playersTurn} = useGameDisplayContext();
+
 export const BlackCardDisplay = (promptCard) => {
+    promptCard = PromptHandler();
 
     return (
         <Box>
@@ -57,17 +60,41 @@ export const BlackCardDisplay = (promptCard) => {
 
 
 export const WhiteCardDisplay = (userCards) => {
+    userCards = UserHandler();
+
+    const [ selectedCard, setSelectedCard ] = useState('');
+
+    playersTurn = true;
+
+    useEffect(() => {
+        console.log(selectedCard.key)
+    }, [selectedCard]);
 
     return (
-        <Box>
-            <Grid container>
-                {
-                    userCards.map((data, index) => (
-                        <GridItem key={index}><WhiteCardStyle>{data}</WhiteCardStyle></GridItem>
-                    ))
-                }
-            </Grid>
-        </Box>
+      <Box>
+        <Grid container>
+          {
+            userCards.map((data, index) => (
+              <GridItem key={index}>
+                <WhiteCardStyle>
+                  <CardContent>
+                    {data}
+                    { playersTurn && <Button
+                    variant = 'contained' size = 'sm'
+                    onClick = {() => {
+                        setSelectedCard(data);
+                        //console.log(selectedCard);
+                    }}>
+                      Submit Card
+                    </Button>
+                    }
+                  </CardContent>
+                </WhiteCardStyle>
+              </GridItem>
+            ))
+            }
+        </Grid>
+      </Box>
     )
 }
 
