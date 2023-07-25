@@ -36,6 +36,7 @@ function StartGame() {
     return array;
     };
 
+  //Finds if the game is started and sets the current Card Zar
   useEffect(() => {
     if (!gameStarted) {
       setCurrentJudgeIndex(Math.floor(Math.random() * players.length));
@@ -56,11 +57,15 @@ function StartGame() {
     }
   }, [isPlaying, currentPlayerIndex]);
 
+  //Main game function will send both info and a "true" value out
+  //The info will be game settings
+  //True will be used to change "started" and render the game
   const handleStartGame = () => {
     setGameStarted(true);
     handleGame();
   };
 
+  //Instead of passivly handling cards we can just make/force auto draw for cards
   const handleDealCards = () => {
     if (cardsDealt) {
       return;
@@ -114,9 +119,11 @@ function StartGame() {
 
   };
 
+  //Great way to change Card Zar main thing is that we give the players an Id or value to be called by
   const handleNextJudge = () => {
     setCurrentJudgeIndex((prevIndex) => (prevIndex + 1) % players.length);
   };
+
 
   const handlePlayCard = () => {
     const currentPlayer = players[currentPlayerIndex];
@@ -139,7 +146,11 @@ function StartGame() {
     handlePlay();
   };
 
+<<<<<<< HEAD
 
+=======
+  // Uses the listeners for the socket connection
+>>>>>>> 75eb9bf0947fedc0dfecbfae798f47822d3bfa58
   useEffect(() => {
     listenEvents( setIsPlaying, setCurrentPlayerIndex);
   }, [setIsPlaying, setCurrentPlayerIndex]);
