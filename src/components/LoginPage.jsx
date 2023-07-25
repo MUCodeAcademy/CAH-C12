@@ -1,7 +1,8 @@
 //React
 import * as React from 'react';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useUserContext } from '../context/UserContext';
+import { useNavigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 //MUI
 import Avatar from '@mui/material/Avatar';
@@ -35,6 +36,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const port = process.env.REACT_APP_DB_PORT;
 // const analytics = getAnalytics(app);
 
 
@@ -73,41 +75,42 @@ export default function LoginPage() {
     e.preventDefault();
   
     const provider = new GoogleAuthProvider();
-    
-    signInWithRedirect(auth, provider);
-    checkUserSignIn();
+    provider.addScope('https://www.googleapis.com/auth/plus.login');
+    signInWithRedirect(provider);
   }
 
 
 // Checks to see if the username and password match with the server
-const checkUserSignIn = () => {
-  getRedirectResult(auth)
-    .then(async (result) => {
-      const user = result.user;
-      try { 
-        const response = await axios.post('http://localhost:3006/auth/register', { 
-          username: user.displayName, 
-          type: 'google' 
-        }); 
-        if (response.status == 200) { 
-          setUser({ username: user.displayName }); 
-          console.log("Registered") 
-          navigate("/lobbypage");
-        } else { 
-          console.error("error");
-          console.log("error");
-        } 
+  const checkUserSignIn = () => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if(result.credential){
+          //
+          var token = result.credential.accessToken;
+          console.log('User veified w/ token');
+        } else {
+          setError({error: 'Unable to verify user'});
+        }
+        const user = result.user;
+        try { 
+          const response = await axios.post('http://localhost:3006/auth/fireAuthSignOn', { username: user.displayName }); 
+          if (response.status == 200) { 
+            setUser({ username: user.displayName }); 
+            console.log("Registered") 
+          } else { 
+            console.error("error");
+          } 
         } catch (err) { 
           console.error(err); 
           console.log("catch error")
         } 
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      setError(errorMessage);
-      console.log("checkusersignin")
-    });
-}
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setError(errorMessage);
+      });
+      
+  };
 
   const handleInput = (e,inputType) => {
     let value = e.target.value;
@@ -128,36 +131,31 @@ const checkUserSignIn = () => {
   //Submit function
   const handleLogin = async (e) => {
     e.preventDefault();
+    reqURL = `http://localhost:${port}/auth/` + e.target.value;
+    console.log('Request URL:', reqURL);
 
-  
-     reqURL = 'http://localhost:3006/auth/' + e.target.value;
-
+    //Should work for both types when Server access is up
+    reqURL = 'http://localhost:3006/auth/' + logType;
+    //Posts user input data to server for account registration
     try {
       const response = await axios.post(reqURL, {
         username: username,
         password: password
       });
-    if (response.status === 200) {
-      setUser({ username });
-      navigate("/lobbypage");
-    } else {
-      console.error("Error registering");
+      if (response.status === 200) {
+        setUser({ username });
+      } else {
+        console.error("Error registering");
+      }
     }
-   }
-   catch (err) {
-    console.error(err);
-    if (err.response && err.response.status === 400) {
-      setError(err.response.data.error);
+    catch (err) {
+      console.error(err);
+      if (err.response && err.response.status === 400) {
+        setError(err.response.data.error);
+      }
     }
-  }
-  }
+  };
    
-    //  useEffect(() => {
-    //   if (error) {
-    //     alert(error);
-    //     setError();
-    //   }
-    // }, [error])
 
   return (
     <ThemeProvider theme={defaultTheme}>
