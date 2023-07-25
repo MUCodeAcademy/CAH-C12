@@ -73,7 +73,7 @@ function About() {
                         </IconButton>
                         {/* <IconButton
                             color="secondary"
-                            href="https://www.linkedin.com/in/maddie-keiffer/"
+                            href="https://www.linkedin.com"
                             target="_blank"
                         >
                             <LinkedInIcon />
@@ -133,7 +133,7 @@ function About() {
                         </IconButton>
                         {/* <IconButton
                             color="secondary"
-                            href="https://www.linkedin.com/in/mark-waring-05bb6b57/"
+                            href="https://www.linkedin.com"
                             target="_blank"
                         >
                             <LinkedInIcon />
