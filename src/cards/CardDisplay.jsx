@@ -1,11 +1,14 @@
 import React from "react";
 import { styled } from "@mui/material";
-import { Box, Grid, Card } from '@mui/material';
+import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import CardContent from "@mui/material/CardContent";
 import { useCardDisplayContext } from "../context/CardDisplayContext";
+import { PromptHandler, UserHandler } from "./CardHandler";
+
 
 let playersTurn = false;
 //const {playersTurn} = useGameDisplayContext();
+
 
 const WhiteCardStyle = styled((props) => (
     <Card {...props} variant='outlined' /> ))
@@ -44,7 +47,12 @@ const GridItem = styled((props) => (
         columnSpacing: 0.5
     })
 
+let playersTurn = false;
+//const {playersTurn} = useGameDisplayContext();
+
 export const BlackCardDisplay = (promptCard) => {
+    promptCard = PromptHandler();
+
     //Bring to state
     const {setSelectedCard} = useCardDisplayContext();
     return (
@@ -79,35 +87,40 @@ export const BlackCardDisplay = (promptCard) => {
 
 
 export const WhiteCardDisplay = (userCards) => {
-    //Bring to state
-    const [selectedCard, setSelectedCard] = useState("");
+    userCards = UserHandler();
+
+    const [ selectedCard, setSelectedCard ] = useState('');
+
+    playersTurn = true;
+
+    useEffect(() => {
+        console.log(selectedCard.key)
+    }, [selectedCard]);
     return (
-        <Box>
-            <Grid container>
-                {
-                    userCards.map((data, index) => (
-                        <GridItem key={index}>
-                            <WhiteCardStyle>
-                                <CardContent>
-                                    {data}
-                                    {playersTurn && <Button
-                                        variant="solid"
-                                        size="sm"
-                                        color="primary"
-                                        aria-label="Explore Bahamas Islands"
-                                        sx={{ ml: "auto", fontWeight: 600 }}
-                                        onClick={() => {
-                                            setSelectedCard(data);
-                                    }}>
-                                        Submit Card
-                                    </Button>}
-                                </CardContent>
-                            </WhiteCardStyle>
-                        </GridItem>
-                    ))
-                }
-            </Grid>
-        </Box>
+      <Box>
+        <Grid container>
+          {
+            userCards.map((data, index) => (
+              <GridItem key={index}>
+                <WhiteCardStyle>
+                  <CardContent>
+                    {data}
+                    { playersTurn && <Button
+                    variant = 'contained' size = 'sm'
+                    onClick = {() => {
+                        setSelectedCard(data);
+                        //console.log(selectedCard);
+                    }}>
+                      Submit Card
+                    </Button>
+                    }
+                  </CardContent>
+                </WhiteCardStyle>
+              </GridItem>
+            ))
+            }
+        </Grid>
+      </Box>
     )
 }
 

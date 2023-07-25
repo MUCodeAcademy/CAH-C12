@@ -3,7 +3,7 @@ const express = require('express');
 const authRoutes = require("../server/routes/auth");
 const cors = require('cors');
 const app = express();
-const port = 8080;
+const port = process.env.REACT_APP_DB_PORT;
 const server = require("http").createServer(app);  
 const io = require("socket.io")(server, {
     cors: {
@@ -106,14 +106,8 @@ socket.on("winner", (suspectedWinner) => {
         console.log("Client Disconnected");
     });
   });
+// server.listen(port);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log("App is listening at: " + port);
 });
-
-
-
-
-
-
- 

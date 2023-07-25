@@ -1,4 +1,3 @@
-
 const emitEvents = (socket, players, currentPlayerIndex) => {
     const handleGame = () => {
       socket.emit('startGame');

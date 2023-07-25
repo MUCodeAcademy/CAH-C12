@@ -1,7 +1,8 @@
 //React
 import * as React from 'react';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useUserContext } from '../context/UserContext';
+import { useNavigate } from "react-router-dom";
 //MUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -21,6 +22,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
 //axios
 import axios from 'axios';
+import { FormControl, FormLabel } from '@mui/material';
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5UnogGBXCUCoBhfov3c6YFXLWSTk0vag",
@@ -33,7 +35,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const port = process.env.REACT_APP_DB_PORT;
 // const analytics = getAnalytics(app);
+
+
 
 const bcrypt = require("bcryptjs");
 function Copyright(props) {
@@ -59,49 +64,50 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
   const { setUser } = useUserContext();
+  const navigate = useNavigate();
 
   const auth = getAuth();
-  let reqURL = '';
+  // let reqURL = '';
 
   //Google sign-in function
   const googleSignIn = async (e) => {
     e.preventDefault();
   
     const provider = new GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/plus.login');
+    
     signInWithRedirect(auth, provider);
+    // checkUserSignIn();
   }
 
+
 // Checks to see if the username and password match with the server
-  const checkUserSignIn = () => {
-    getRedirectResult(auth)
-      .then(async (result) => {
-        if(result.credential){
-          //
-          var token = result.credential.accessToken;
-          console.log('User veified w/ token');
-        } else {
-          setError({error: 'Unable to verify user'});
-        }
-        const user = result.user;
-        try { 
-          const response = await axios.post('http://localhost:8080/auth/fireAuthSignOn', { username: user.displayName }); 
-          if (response.status == 200) { 
-            setUser({ username: user.displayName }); 
-            console.log("Registered") 
-          } else { 
-            console.error("error");
-          } 
+const checkUserSignIn = () => {
+  getRedirectResult(auth)
+    .then(async (result) => {
+      const user = result.user;
+      try { 
+        const response = await axios.post(`http://localhost:${port}/auth/register`, { 
+          username: user.displayName, 
+          type: 'google' 
+        }); 
+        if (response.status == 200) { 
+          setUser({ username: user.displayName }); 
+          console.log("Registered") 
+          navigate("/lobbypage");
+        } else { 
+          console.error("error");
+          console.log("error");
+        } 
         } catch (err) { 
           console.error(err); 
+          console.log("catch error")
         } 
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        setError(errorMessage);
-      });
-      
-  };
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      setError(errorMessage);
+    });
+}
 
   const handleInput = (e,inputType) => {
     let value = e.target.value;
@@ -114,17 +120,17 @@ export default function LoginPage() {
   };
   
   
-  useEffect(() => {
-    checkUserSignIn();
-  }, []);
+  // useEffect(() => {
+  //   checkUserSignIn();
+  // }, []);
 
+  let reqURL;
   //Submit function
-  const handleSubmit = async (e,logType) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    reqURL = `http://localhost:${port}/auth/` + e.target.value;
+    console.log('Request URL:', reqURL);
 
-    //Should work for both types when Server access is up
-    reqURL = 'http://localhost:8080/auth/' + logType;
-    //Posts user input data to server for account registration
     try {
       const response = await axios.post(reqURL, {
         username: username,
@@ -132,18 +138,25 @@ export default function LoginPage() {
       });
       if (response.status === 200) {
         setUser({ username });
+        navigate("/lobbypage");
+        checkUserSignIn(); // Call after successful login or registration
       } else {
         console.error("Error registering");
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       if (err.response && err.response.status === 400) {
         setError(err.response.data.error);
       }
     }
-  };
+}
    
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      setError();
+    }
+  }, [error])
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -179,38 +192,61 @@ export default function LoginPage() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={(e) => handleSubmit(e,'login')} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleLogin} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                required
+               required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
                 autoFocus
-                onChange={(e) => handleInput(e,"username")}
+                name="username"
+                autoComplete="email"
+                id="Username"
+                label="Email Address or Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
+                autoFocus
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={(e) => handleInput(e,"password")}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+                <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                primary="true"
+                value="register"
+               disabled={username.length < 4 || password.length < 4}
+               onClick={(e) => {
+              handleLogin(e);
+          }}
+              >
+               Register
+              </Button>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                value = 'login' 
+                primary="true"
+               disabled={username.length < 4 || password.length < 4}
+               onClick={(e) => {
+              handleLogin(e);
+          }}
               >
                 Sign In
               </Button>
@@ -225,14 +261,14 @@ export default function LoginPage() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2">
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
+                  {/* <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
-                  </Link>
+                  </Link> */}
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

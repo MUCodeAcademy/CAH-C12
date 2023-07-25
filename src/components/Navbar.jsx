@@ -11,10 +11,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
+
+  const navigateToAbout = () => {
+    navigate("/about");
+  }
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,8 +34,13 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }}>
             Leader Board
+          </Typography>
+          <Typography variant='h6' component="div" sx={{ flexGrow: 1, cursor: 'pointer' }}
+            onClick={navigateToAbout}
+          >
+            About
           </Typography>
           {auth && (
             <div>
