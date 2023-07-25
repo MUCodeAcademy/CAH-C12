@@ -10,7 +10,6 @@ const Menu = () => {
                 <li> <Link to="/register">Register</Link></li>
                 {/* <li> <Link to="/lobby">Lobby</Link></li>
                 <li> <Link to="/game">Game</Link></li> */}
-
             </ul>
         </nav>
     )

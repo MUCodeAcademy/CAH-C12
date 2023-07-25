@@ -61,6 +61,7 @@ exports.register = (req,res) => {
 exports.fireAuthSignOn = (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const user_id = uuid();
     if(password){
         connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
             if(error) {
