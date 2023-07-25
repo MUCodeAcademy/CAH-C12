@@ -57,9 +57,9 @@ function About() {
                     <Avatar alt="James" src={James} sx={{ 
                         width: 100, 
                         height: 100, 
-                        // This zooms out of the picture a bit,
-                        // you can remove this if you want
-                        // or change objectFit: 'center' to
+                        // This & img selector zooms out of the picture a bit.
+                        // You can remove this if you want,
+                        // or change objectFit: 'contain' to
                         // objectFit: 'cover'
                         '& img': {
                             objectFit: 'contain',
