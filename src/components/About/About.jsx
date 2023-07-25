@@ -3,6 +3,7 @@ import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Trevor from './Trevor.png';
+import James from './James.jpeg';
 
 function About() {
     return (
@@ -53,16 +54,31 @@ function About() {
             </Grid>
             <Grid container item xs={12} sm={6}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="James" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="James" src={James} sx={{ 
+                        width: 100, 
+                        height: 100, 
+                        // This zooms out of the picture a bit,
+                        // you can remove this if you want
+                        // or change objectFit: 'center' to
+                        // objectFit: 'cover'
+                        '& img': {
+                            objectFit: 'contain',
+                            objectPosition: 'center',
+                            backgroundColor: 'black'
+                        } }} />
                 </Grid>
                 <Grid item xs={12} md={9}>
                     <Box className="padding-10">
-                        <Typography variant="h5"> James (or Jay if you prefer) Jacobson</Typography>
+                        <Typography variant="h5"> James Jacobson</Typography>
                         <Typography
                             variant="body2"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
-                            Placeholder Paragraph
+                            I come from a background in automotive technology and my experience with controller area networks, 
+                            aftermarket diagnostic software, cloud based OEM software, 
+                            as well as cloud based service information has inspired me to expand my skillset 
+                            and change careers into a more general computer science role. 
+                            I believe that one day I will be able to solve many problems in the automotive industry and beyond.
                         </Typography>
                         <IconButton
                             color="secondary"
@@ -71,13 +87,13 @@ function About() {
                         >
                             <GitHubIcon />
                         </IconButton>
-                        {/* <IconButton
+                        <IconButton
                             color="secondary"
-                            href="https://www.linkedin.com"
+                            href="https://www.linkedin.com/in/james-jacobson-490ba2262"
                             target="_blank"
                         >
                             <LinkedInIcon />
-                        </IconButton> */}
+                        </IconButton>
                     </Box>
                 </Grid>
             </Grid>
