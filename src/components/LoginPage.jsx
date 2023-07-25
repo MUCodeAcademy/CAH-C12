@@ -105,6 +105,7 @@ const checkUserSignIn = () => {
     .catch((error) => {
       const errorMessage = error.message;
       setError(errorMessage);
+      console.log("checkusersignin")
     });
 }
 
@@ -119,14 +120,15 @@ const checkUserSignIn = () => {
   };
   
   
-  useEffect(() => {
-    checkUserSignIn();
-  }, []);
+  // useEffect(() => {
+  //   checkUserSignIn();
+  // }, []);
 
   let reqURL;
   //Submit function
   const handleLogin = async (e) => {
     e.preventDefault();
+
   
      reqURL = 'http://localhost:3006/auth/' + e.target.value;
 
@@ -150,12 +152,12 @@ const checkUserSignIn = () => {
   }
   }
    
-     useEffect(() => {
-      if (error) {
-        alert(error);
-        setError();
-      }
-    }, [error])
+    //  useEffect(() => {
+    //   if (error) {
+    //     alert(error);
+    //     setError();
+    //   }
+    // }, [error])
 
   return (
     <ThemeProvider theme={defaultTheme}>
