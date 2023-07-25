@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, Grid, IconButton, Typography, Container } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Trevor from './Trevor.png';
@@ -8,30 +8,39 @@ import Andrew from './Andrew.png';
 
 function About() {
     return (
-        <Grid
-            container
-            rowSpacing={4}
-            columnSpacing={6}
-            style={{
-                textAlign: "center",
-                padding: "20px",
-                marginLeft: "0px",
-                width: "100%",
-            }}
-            className="center padding-20"
-        >
-            <Grid item xs={12}>
-                <Typography variant="h4">About The Dev Team</Typography>
-            </Grid>
-            <Grid container item xs={12} sm={6}>
-                <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Andrew" src="Andrew" sx={{ width: 100, height: 100 }} />
+        <Container maxWidth={false} disableGutters>
+            <Grid container rowSpacing={4} columnSpacing={6} textAlign="center">
+                <Grid item xs={12}>
+                    <Typography 
+                        variant="h3"
+                        sx={{
+                            backgroundColor: "black", 
+                            color: "white",
+                            width: "100%",
+                            margin: 0,
+                            padding: '20px'
+                        }}
+                    >
+                    About The Dev Team
+                    </Typography>
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    <Box className="padding-10">
-                        <Typography variant="h5"> Andrew Anzalone</Typography>
+            <Grid container item xs={12} sm={6}>
+            <Grid item xs={12} md={3} justifyContent="center" display="flex" sx={{ padding: '0 20px' }}>
+                    <Avatar alt="Andrew" src={Andrew} sx={{ 
+                        width: 150, 
+                        height: 150,
+                        '& img': {
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                            backgroundColor: 'black'
+                        }
+                         }} />
+                </Grid>
+                <Grid container item xs={12} md={9} sx={{ padding: '0 20px' }}>
+                    <Box>
+                        <Typography variant="h4"> Andrew Anzalone</Typography>
                         <Typography
-                            variant="body2"
+                            variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Part time Creative who loves technology. This is a great way to describe Andrew. 
@@ -55,11 +64,11 @@ function About() {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container item xs={12} sm={6}>
+            <Grid container item xs={12} sm={6} sx={{ padding: '0 20px' }}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
                     <Avatar alt="James" src={James} sx={{ 
-                        width: 100, 
-                        height: 100, 
+                        width: 150, 
+                        height: 150, 
                         // This & img selector zooms out of the picture a bit.
                         // You can remove this if you want,
                         // or change objectFit: 'contain' to
@@ -70,11 +79,11 @@ function About() {
                             backgroundColor: 'black'
                         } }} />
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    <Box className="padding-10">
-                        <Typography variant="h5"> James Jacobson</Typography>
+                <Grid item xs={12} md={9} sx={{ padding: '0 20px' }}>
+                    <Box>
+                        <Typography variant="h4"> James Jacobson</Typography>
                         <Typography
-                            variant="body2"
+                            variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             I come from a background in automotive technology and my experience with controller area networks, 
@@ -100,15 +109,15 @@ function About() {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container item xs={12} sm={6}>
+            <Grid container item xs={12} sm={6} sx={{ padding: '0 20px' }}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Madison" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Madison" sx={{ width: 150, height: 150 }} />
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    <Box className="padding-10">
-                        <Typography variant="h5">Madison (or Maddie if you prefer) Keiffer-Rose</Typography>
+                <Grid item xs={12} md={9} sx={{ padding: '0 20px' }}>
+                    <Box>
+                        <Typography variant="h4">Madison (or Maddie if you prefer) Keiffer-Rose</Typography>
                         <Typography
-                            variant="body2"
+                            variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Placeholder Text
@@ -130,15 +139,15 @@ function About() {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container item xs={12} sm={6}>
+            <Grid container item xs={12} sm={6} sx={{ padding: '0 20px' }}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Shawn" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Shawn" sx={{ width: 150, height: 150 }} />
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    <Box className="padding-10">
-                        <Typography variant="h5">Shawn Wagoner</Typography>
+                <Grid item xs={12} md={9} sx={{ padding: '0 20px' }}>
+                    <Box>
+                        <Typography variant="h4">Shawn Wagoner</Typography>
                         <Typography
-                            variant="body2"
+                            variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Placeholder Paragraph
@@ -160,15 +169,15 @@ function About() {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container item xs={12} sm={6}>
+            <Grid container item xs={12} sm={6} sx={{ padding: '0 20px' }}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Trevor" src={Trevor} sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Trevor" src={Trevor} sx={{ width: 150, height: 150 }} />
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    <Box className="padding-10">
-                        <Typography variant="h5">Trevor Parks</Typography>
+                <Grid item xs={12} md={9} sx={{ padding: '0 20px' }}>
+                    <Box>
+                        <Typography variant="h4">Trevor Parks</Typography>
                         <Typography
-                            variant="body2"
+                            variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Hello, I'm Trevor Parks, I joined the Midland Code Academy to give me the skills to create full-stack applications. 
@@ -194,6 +203,7 @@ function About() {
                 </Grid>
             </Grid>
         </Grid>
+    </Container>
     );
 }
 
