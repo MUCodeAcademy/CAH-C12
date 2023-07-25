@@ -6,7 +6,7 @@ import { useCardDisplayContext } from "../context/CardDisplayContext";
 import { PromptHandler, UserHandler } from "./CardHandler";
 
 
-let playersTurn = false;
+
 //const {playersTurn} = useGameDisplayContext();
 
 
@@ -52,6 +52,7 @@ let playersTurn = false;
 
 export const BlackCardDisplay = (promptCard) => {
     promptCard = PromptHandler();
+    let playersTurn = false;
 
     //Bring to state
     const {setSelectedCard} = useCardDisplayContext();
