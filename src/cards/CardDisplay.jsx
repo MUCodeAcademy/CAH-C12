@@ -1,11 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material";
 import { Box, Grid, Card } from '@mui/material';
-import { getWhiteCards,getBlackCards } from "./getCards";
-import { Shuffle } from "./CardHandler";
-
-const startSet = 0;
-const endSet = 19;
 
 
 

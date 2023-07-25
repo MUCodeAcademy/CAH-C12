@@ -1,29 +1,29 @@
 import React from 'react';
+import { getBlackCards, getWhiteCards } from './getCards';
 
+const startSet = 0;
+const endSet = 19;
 
-export const CardHandler = () => {
-    
-    // Shuffle arrays to make things not so predictable
-    const shuffle = (cardArray) => {
-        let currentIndex = cardArray.length,
-        temporaryValue,
-        randomIndex;
-    
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-    
-        // And swap it with the current element.
-        temporaryValue = cardArray[currentIndex];
-        cardArray[currentIndex] = cardArray[randomIndex];
-        cardArray[randomIndex] = temporaryValue;
-        }
-    
-        return cardArray;
+export const Shuffle = (cardArray) => {
+    let currentIndex = cardArray.length,
+    temporaryValue,
+    randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = cardArray[currentIndex];
+    cardArray[currentIndex] = cardArray[randomIndex];
+    cardArray[randomIndex] = temporaryValue;
     }
+
+    return cardArray;
 }
+
 
 export const PromptHandler = () => {
     let blackCards = getBlackCards(startSet,endSet);
