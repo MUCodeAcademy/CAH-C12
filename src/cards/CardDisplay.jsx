@@ -1,7 +1,13 @@
 import React from "react";
 import { styled } from "@mui/material";
-import { Box, Grid, Card } from '@mui/material';
+import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
+import CardContent from "@mui/material/CardContent";
+import { useCardDisplayContext } from "../context/CardDisplayContext";
+import { PromptHandler, UserHandler } from "./CardHandler";
 
+
+let playersTurn = false;
+//const {playersTurn} = useGameDisplayContext();
 
 
 const WhiteCardStyle = styled((props) => (
@@ -32,6 +38,7 @@ const BlackCardStyle = styled((props) => (
         color: 'white'
     });
 
+
 const GridItem = styled((props) => (
     <Grid item xs {...props} /> ))
     ({
@@ -40,14 +47,37 @@ const GridItem = styled((props) => (
         columnSpacing: 0.5
     })
 
-export const BlackCardDisplay = (promptCard) => {
+let playersTurn = false;
+//const {playersTurn} = useGameDisplayContext();
 
+export const BlackCardDisplay = (promptCard) => {
+    promptCard = PromptHandler();
+
+    //Bring to state
+    const {setSelectedCard} = useCardDisplayContext();
     return (
         <Box>
             <Grid container >
                 {
                     promptCard.map((data, index) => (
-                        <GridItem key={index}><BlackCardStyle>{data}</BlackCardStyle></GridItem>
+                        <GridItem key={index}>
+                            <BlackCardStyle>
+                                <CardContent>
+                                    {data}
+                                    {playersTurn && <Button
+                                        variant="solid"
+                                        size="sm"
+                                        color="primary"
+                                        aria-label="Explore Bahamas Islands"
+                                        sx={{ ml: "auto", fontWeight: 600 }}
+                                        onClick={() => {
+                                            setSelectedCard(data);
+                                    }}>
+                                        Submit Card
+                                    </Button>}
+                                </CardContent>
+                            </BlackCardStyle>
+                        </GridItem>
                     ))
                 }
             </Grid>
@@ -57,17 +87,40 @@ export const BlackCardDisplay = (promptCard) => {
 
 
 export const WhiteCardDisplay = (userCards) => {
+    userCards = UserHandler();
 
+    const [ selectedCard, setSelectedCard ] = useState('');
+
+    playersTurn = true;
+
+    useEffect(() => {
+        console.log(selectedCard.key)
+    }, [selectedCard]);
     return (
-        <Box>
-            <Grid container>
-                {
-                    userCards.map((data, index) => (
-                        <GridItem key={index}><WhiteCardStyle>{data}</WhiteCardStyle></GridItem>
-                    ))
-                }
-            </Grid>
-        </Box>
+      <Box>
+        <Grid container>
+          {
+            userCards.map((data, index) => (
+              <GridItem key={index}>
+                <WhiteCardStyle>
+                  <CardContent>
+                    {data}
+                    { playersTurn && <Button
+                    variant = 'contained' size = 'sm'
+                    onClick = {() => {
+                        setSelectedCard(data);
+                        //console.log(selectedCard);
+                    }}>
+                      Submit Card
+                    </Button>
+                    }
+                  </CardContent>
+                </WhiteCardStyle>
+              </GridItem>
+            ))
+            }
+        </Grid>
+      </Box>
     )
 }
 
