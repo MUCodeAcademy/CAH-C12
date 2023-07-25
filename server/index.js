@@ -102,11 +102,11 @@ socket.on("winner", (suspectedWinner) => {
 
 //--------------------------------------------------------------------------- 
 //DISCONNECTING 
-   socket.on("disconnect", () => {
-        console.log("Client Disconnected");
-    });
-  });
-  server.listen(3306);
+//    socket.on("disconnect", () => {
+//         console.log("Client Disconnected");
+//     });
+// //   });
+//   server.listen(3306);
 
 server.listen(port, () => {
     console.log("App is listening at: " + port);

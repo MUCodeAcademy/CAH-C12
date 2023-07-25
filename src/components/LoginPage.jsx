@@ -3,7 +3,6 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 //MUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -75,42 +74,39 @@ export default function LoginPage() {
     e.preventDefault();
   
     const provider = new GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/plus.login');
-    signInWithRedirect(provider);
+    
+    signInWithRedirect(auth, provider);
   }
 
 
 // Checks to see if the username and password match with the server
-  const checkUserSignIn = () => {
-    getRedirectResult(auth)
-      .then(async (result) => {
-        if(result.credential){
-          //
-          var token = result.credential.accessToken;
-          console.log('User veified w/ token');
-        } else {
-          setError({error: 'Unable to verify user'});
-        }
-        const user = result.user;
-        try { 
-          const response = await axios.post('http://localhost:3006/auth/fireAuthSignOn', { username: user.displayName }); 
-          if (response.status == 200) { 
-            setUser({ username: user.displayName }); 
-            console.log("Registered") 
-          } else { 
-            console.error("error");
-          } 
+const checkUserSignIn = () => {
+  getRedirectResult(auth)
+    .then(async (result) => {
+      const user = result.user;
+      try { 
+        const response = await axios.post(`http://localhost:${port}/auth/register`, { 
+          username: user.displayName, 
+          type: 'google' 
+        }); 
+        if (response.status == 200) { 
+          setUser({ username: user.displayName }); 
+          console.log("Registered") 
+          navigate("/lobbypage");
+        } else { 
+          console.error("error");
+          console.log("error");
+        } 
         } catch (err) { 
           console.error(err); 
           console.log("catch error")
         } 
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        setError(errorMessage);
-      });
-      
-  };
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      setError(errorMessage);
+    });
+}
 
   const handleInput = (e,inputType) => {
     let value = e.target.value;
@@ -134,9 +130,6 @@ export default function LoginPage() {
     reqURL = `http://localhost:${port}/auth/` + e.target.value;
     console.log('Request URL:', reqURL);
 
-    //Should work for both types when Server access is up
-    reqURL = 'http://localhost:3006/auth/' + logType;
-    //Posts user input data to server for account registration
     try {
       const response = await axios.post(reqURL, {
         username: username,
@@ -144,18 +137,25 @@ export default function LoginPage() {
       });
       if (response.status === 200) {
         setUser({ username });
+        navigate("/lobbypage");
+        checkUserSignIn(); // Call after successful login or registration
       } else {
         console.error("Error registering");
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
       if (err.response && err.response.status === 400) {
         setError(err.response.data.error);
       }
     }
-  };
+}
    
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      setError();
+    }
+  }, [error])
 
   return (
     <ThemeProvider theme={defaultTheme}>

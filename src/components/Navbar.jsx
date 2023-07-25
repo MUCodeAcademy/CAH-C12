@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,19 +16,63 @@ import Menu from '@mui/material/Menu';
 export default function Navbar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [nav, setNav] = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const navigate = useNavigate();
 
-  const handleMenu = (event) => {
+
+  const handleProfile = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleNav = (event) => {
+    setAnchorEl2(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+        <div>
+        <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            sx={{ mr: 2 }}
+            onClick={handleNav}
+          >
+            <MenuIcon />
+          </IconButton>
+            <Menu
+                id="menu-appbar"
+                anchorEl2={anchorEl2}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorEl2)}
+                onClose={handleClose2}
+              >
+                <MenuItem onClick={handleClose2}><Link to="/">Login</Link></MenuItem>
+                <MenuItem onClick={handleClose2}><Link to="/lobbypage">Lobby</Link></MenuItem>
+              </Menu>
+              </div>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Leader Board
           </Typography>
@@ -36,9 +81,9 @@ export default function Navbar() {
               <IconButton
                 size="large"
                 aria-label="account of current user"
-                aria-controls="menu-appbar"
+                aria-controls="profile-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleProfile}
                 color="inherit"
               >
                 <AccountCircle />
