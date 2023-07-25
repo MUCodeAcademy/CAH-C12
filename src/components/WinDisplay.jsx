@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import Box from '@mui/material/Box';
+//import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Card from "@mui/material/Card";
@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from 'react-router-dom';
 
 
-export default function WinDisplay(props) {
+export function WinDisplay(props) {
     // This should 
     // 1) Display winner and rankings (will get points/winner from props)
     // 2) Display buttons to either vote/force restart and Quit to title
@@ -59,7 +59,7 @@ export default function WinDisplay(props) {
     let navigate = useNavigate(); 
     const handleLobbyReturn = () => {
         let path = './LoginPage';
-        Navigate(path);
+        navigate(path);
     }
 
     return(
