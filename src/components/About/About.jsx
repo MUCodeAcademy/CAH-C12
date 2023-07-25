@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import Trevor from './Trevor.png';
 
 function About() {
     return (
@@ -142,7 +143,7 @@ function About() {
             </Grid>
             <Grid container item xs={12} sm={6}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Trevor" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Trevor" src={Trevor} sx={{ width: 100, height: 100 }} />
                 </Grid>
                 <Grid item xs={12} md={9}>
                     <Box className="padding-10">
