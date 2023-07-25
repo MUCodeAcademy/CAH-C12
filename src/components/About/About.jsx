@@ -29,7 +29,7 @@ function About() {
                         <Typography variant="h5"> Andrew Anzalone</Typography>
                         <Typography
                             variant="body2"
-                            style={{ marginLeft: "15px", textAlign: "left" }}
+                            style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Placeholder paragraph
                         </Typography>
@@ -59,7 +59,7 @@ function About() {
                         <Typography variant="h5"> James (or Jay if you prefer) Jacobson</Typography>
                         <Typography
                             variant="body2"
-                            style={{ marginLeft: "15px", textAlign: "left" }}
+                            style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Placeholder Paragraph
                         </Typography>
@@ -82,14 +82,14 @@ function About() {
             </Grid>
             <Grid container item xs={12} sm={6}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Madsion" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Madison" sx={{ width: 100, height: 100 }} />
                 </Grid>
                 <Grid item xs={12} md={9}>
                     <Box className="padding-10">
                         <Typography variant="h5">Madison (or Maddie if you prefer) Keiffer-Rose</Typography>
                         <Typography
                             variant="body2"
-                            style={{ marginLeft: "15px", textAlign: "left" }}
+                            style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Placeholder Text
                         </Typography>
@@ -119,7 +119,7 @@ function About() {
                         <Typography variant="h5">Shawn Wagoner</Typography>
                         <Typography
                             variant="body2"
-                            style={{ marginLeft: "15px", textAlign: "left" }}
+                            style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Placeholder Paragraph
                         </Typography>
@@ -149,7 +149,7 @@ function About() {
                         <Typography variant="h5">Trevor Parks</Typography>
                         <Typography
                             variant="body2"
-                            style={{ marginLeft: "15px", textAlign: "left" }}
+                            style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
                             Hello, I'm Trevor Parks, I joined the Midland Code Academy to give me the skills to create full-stack applications. 
                             I'm interested in business, finance, and cryptocurrency in relation to web development. 
