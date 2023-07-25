@@ -4,6 +4,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Trevor from './Trevor.png';
 import James from './James.jpeg';
+import Andrew from './Andrew.png';
 
 function About() {
     return (
@@ -24,7 +25,7 @@ function About() {
             </Grid>
             <Grid container item xs={12} sm={6}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Andrew" sx={{ width: 100, height: 100 }} />
+                    <Avatar alt="Andrew" src="Andrew" sx={{ width: 100, height: 100 }} />
                 </Grid>
                 <Grid item xs={12} md={9}>
                     <Box className="padding-10">
@@ -33,7 +34,9 @@ function About() {
                             variant="body2"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
-                            Placeholder paragraph
+                            Part time Creative who loves technology. This is a great way to describe Andrew. 
+                            With some experience with Java and Web Dev, he brought a unique perspective to the team. 
+                            Check out his socials for more info on him.
                         </Typography>
                         <IconButton
                             color="secondary"
