@@ -5,7 +5,7 @@ import { BlackCardDisplay, WhiteCardDisplay } from '../cards/CardDisplay';
 import { PromptHandler, UserHandler } from '../cards/CardHandler';
 import { Button, Paper, Box } from '@mui/material';
 import { WinDisplay } from './WinDisplay';
-import { useCardDisplayContext } from '../context/CardDi
+import { useCardDisplayContext } from '../context/CardDisplayContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -98,7 +98,7 @@ function gameState() {
     
 }
 
-export function GameDisplay() {
+function GameDisplay() {
     // Make a useEffect or while statement to check playersTurn 
     // Since it's at state we should reset it after the player selects a card in CardDisplay
     // When playersTurn = false
@@ -140,5 +140,7 @@ export function GameDisplay() {
                 </Grid>
             </Grid>
         </Box>
-    )
-}
+    )}
+};
+
+export default GameDisplay;
