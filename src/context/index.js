@@ -1,7 +1,7 @@
 import { LobbyProvider } from './LobbyContext';
 import { UserProvider } from './UserContext';
 import { CardDisplayProvider } from './CardDisplayContext';
-import { GameDisplayProvider, RankProvider } from './GameDisplayContext';
+import { GameDisplayProvider } from './gamePageContext';
  
 export default function StateProvider(props) {
     return (
