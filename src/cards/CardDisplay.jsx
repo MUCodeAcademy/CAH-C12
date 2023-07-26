@@ -3,11 +3,6 @@ import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import { useCardDisplayContext } from "../context/CardDisplayContext";
 import { PromptHandler, UserHandler } from "./CardHandler";
 
-
-
-//const {playersTurn} = useGameDisplayContext();
-
-
 const WhiteCardStyle = styled((props) => (
     <Card {...props} variant='outlined' /> ))
     ({
@@ -45,12 +40,9 @@ const GridItem = styled((props) => (
         columnSpacing: 0.5
     })
 
-let playersTurn = false;
-//const {playersTurn} = useGameDisplayContext();
-
-export const BlackCardDisplay = (promptCard) => {
-    promptCard = PromptHandler();
-    playersTurn = false;
+export const BlackCardDisplay = (props) => {
+    promptCard = props.promptCard;
+    isPlaying = props.isPlaying;
 
     //Bring to state
     const {setSelectedCard} = useCardDisplayContext();
@@ -63,7 +55,7 @@ export const BlackCardDisplay = (promptCard) => {
                             <BlackCardStyle>
                                 <CardContent>
                                     {data}
-                                    {!playersTurn && <Button
+                                    {isPlaying && <Button
                                         variant = 'contained' size = 'sm'
                                         onClick={() => {
                                             setSelectedCard(data);
@@ -81,12 +73,11 @@ export const BlackCardDisplay = (promptCard) => {
 }
 
 
-export const WhiteCardDisplay = (userCards) => {
-    userCards = UserHandler();
-
+export const WhiteCardDisplay = (props) => {
+    const userCards = props.userCards;
+    const isPlaying = props.isPlaying;
     const { selectedCard, setSelectedCard } = useCardDisplayContext();
 
-    playersTurn = true;
 
     useEffect(() => {
         console.log(selectedCard.key)
@@ -100,7 +91,7 @@ export const WhiteCardDisplay = (userCards) => {
                 <WhiteCardStyle>
                   <CardContent>
                     {data}
-                    { playersTurn && <Button
+                    { isPlaying && <Button
                     variant = 'contained' size = 'sm'
                     onClick = {() => {
                         setSelectedCard(data);

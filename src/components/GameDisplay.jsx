@@ -148,7 +148,7 @@ export function GameDisplay(props) {
                     <Item>Player 2's Cards</Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item><BlackCardDisplay promptCard={promptCard}/></Item>
+                    <Item><BlackCardDisplay promptCard={promptCard} isPlaying={isPlaying}/></Item>
                 </Grid>
                 <Grid xs={4}>
                     <Item>Player 4's Cards</Item>
@@ -157,7 +157,7 @@ export function GameDisplay(props) {
                     <Item>5</Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item><WhiteCardDisplay userCards={userCards}/></Item>
+                    <Item><WhiteCardDisplay userCards={userCards} isPlaying={isPlaying}/></Item>
                 </Grid>
                 <Grid xs={3}>
                     <Item>{isPlaying && '<Timer />'}</Item>
