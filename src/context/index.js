@@ -1,9 +1,12 @@
 import { UserProvider } from './UserContext';
+import { CardDisplayProvider } from './CardDisplayContext';
 
 export default function StateProvider(props) {
     return (
         <UserProvider>
-            {props.children}
+            <CardDisplayProvider>
+                {props.children}
+            </CardDisplayProvider>
         </UserProvider>
     )
 }

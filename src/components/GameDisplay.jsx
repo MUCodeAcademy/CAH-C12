@@ -73,7 +73,7 @@ const handleSubmitions = (card) => {
         userScores[currentPlayerIndex] = userScores[currentPlayerIndex] + 1;
         if(userScores[currentPlayerIndex] === 7){
             let finalScores = [];
-            for(i = 0;i < userScores.length; i++){
+            for(let i = 0;i < userScores.length; i++){
                 if(userScores[i] > userScores[((i+1)%playersSet.length)]){
                     finalScores.push(userScores[i]);
                 };
@@ -98,7 +98,7 @@ function gameState() {
     
 }
 
-function GameDisplay() {
+function GameDisplay(props) {
     // Make a useEffect or while statement to check playersTurn 
     // Since it's at state we should reset it after the player selects a card in CardDisplay
     // When playersTurn = false
@@ -107,6 +107,7 @@ function GameDisplay() {
     //} else {
     //      handleSubmittion(selectedCard);
     //}
+    setIsPlaying(props.isPlaying);
 
     return(
         <Box sx={{ width: '100%' }}>
@@ -136,7 +137,7 @@ function GameDisplay() {
                     <Item><WhiteCardDisplay userCards={userCards}/></Item>
                 </Grid>
                 <Grid xs={3}>
-                    <Item>{playersTurn && <Timer />}</Item>
+                    <Item>{isPlaying && '<Timer />'}</Item>
                 </Grid>
             </Grid>
         </Box>

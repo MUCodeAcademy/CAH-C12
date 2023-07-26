@@ -1,6 +1,5 @@
 import React from 'react';
 import { useUserContext } from '../context/UserContext';
-import StartGame from './StartGame';
 import Rules from './Rules';
 import CardDisplay from '../cards/CardDisplay';
 import WinDisplay from './WinDisplay';
@@ -10,6 +9,10 @@ export default function GamePage(props) {
     const {user} = useUserContext;
     //useLobbyContext
     const lobbyId = props.lobbyId;
+
+    const isPlaying = false;
+    //const {isPlaying} = useGameDisplayContext();
+    //const {ranks} = useGameDisplayContext();
 
     //soon to be state variables
     const started = false;
@@ -34,20 +37,16 @@ export default function GamePage(props) {
            <Rules/>
            {started &&  
             <div>
-                This is the playing state for the game
-                <GameDisplay/>
-            </div>
-            }
-            {playersTurn && 
-            <div>
-                This should render an alternate game display with a timer and "select Card" button
-                <GameDisplay/>
+                {isPlaying 
+                    ?<GameDisplay isPlaying={true}/> 
+                    :<GameDisplay isPlaying={false}/>
+                }
             </div>
             }
             {finished && 
             <div>
                 This is a temp for ending the game
-                <WinDisplay/>
+                <WinDisplay ranks={[]}/>
             </div>
             }
         </>
