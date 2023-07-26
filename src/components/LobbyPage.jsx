@@ -11,7 +11,7 @@ function Lobby() {
   const [selectedTable, setSelectedTable] = useState(null);
 
   const { table, joinTable, leaveTable } = useLobbyContext();
-  const { player } = useUserContext();
+  const { user } = useUserContext();
 
   const handleTableSelect = (tableId) => {
     setSelectedTable(tableId);
@@ -19,10 +19,10 @@ function Lobby() {
   };
 
   const handleJoinTable = () => {
-    console.log("player from context: ", player);
+    console.log("player from context: ", user);
     
     if (selectedTable) {
-      joinTable(selectedTable, player);
+      joinTable(selectedTable, user);
 
     } else {
       console.log('No table selected');
