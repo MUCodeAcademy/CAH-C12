@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 import { getBlackCards, getWhiteCards } from './getCards';
 
 const startSet = 0;

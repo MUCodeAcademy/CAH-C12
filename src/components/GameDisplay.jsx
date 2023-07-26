@@ -64,7 +64,7 @@ const handleNextPlayer = () => {
 
     //TODO : card should be an object with the text(for card display) & playerId (who played it)
 
-const handleSubmitions = (card) => {
+const handleSubmissions = (card) => {
     setSubmittedCard([...sumbittedCards, card]);
     if(sumbittedCards.length === 4){
         //Send the Cards to the Card Zar
@@ -105,7 +105,7 @@ function GameDisplay(props) {
     // if(selectedCard === null || selectedCard === previousSelectedCard){
     //    console.error("Error get Selected User's Card")
     //} else {
-    //      handleSubmittion(selectedCard);
+    //      handleSubmission(selectedCard);
     //}
     setIsPlaying(props.isPlaying);
 
