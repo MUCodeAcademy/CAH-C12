@@ -1,4 +1,4 @@
-const { uuid } = require('uuidv4');
+const { v4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const connection = require('../config/envConfig.jsx');
 const { response } = require('express');
@@ -35,7 +35,7 @@ exports.login = (req, res) => {
 exports.register = (req,res) => {
     const username = req.body.username;
     const password = bcrypt.hashSync(req.body.password, saltRounds);
-    const id = uuid();
+    const id = v4();
 
     connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
         if(error) {
@@ -61,6 +61,7 @@ exports.register = (req,res) => {
 exports.fireAuthSignOn = (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const user_id = v4();
     if(password){
         connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
             if(error) {
@@ -76,8 +77,8 @@ exports.fireAuthSignOn = (req,res) => {
             }
         })
     } else {
-        password = uuid();
-        const userId = uuid();
+        password = v4();
+        const userId = v4();
         connection.query("SELECT * FROM users WHERE username = ?", [username], (error, results) => {
             if(error) {
                 res.status(500).send({error: error});

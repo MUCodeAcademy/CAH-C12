@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const authRoutes = require("../server/routes/auth");
+const lobbyRoutes = require("../server/routes/lobby");
 const cors = require('cors');
 const app = express();
 const port = process.env.REACT_APP_DB_PORT;
@@ -17,6 +18,7 @@ const io = require("socket.io")(server, {
 app.use(cors());
 app.use(express.json());
 app.use('/auth', authRoutes);
+app.use('/lobby', lobbyRoutes);
 
 //-------------------------------------------------------------------------------
 //CONNECTING

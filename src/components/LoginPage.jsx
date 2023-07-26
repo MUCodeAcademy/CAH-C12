@@ -25,13 +25,13 @@ import axios from 'axios';
 import { FormControl, FormLabel } from '@mui/material';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCV9Y1u92nqaJjmp044QiS0dWBbA2WUpGs",
-  authDomain: "cah-c12.firebaseapp.com",
-  projectId: "cah-c12",
-  storageBucket: "cah-c12.appspot.com",
-  messagingSenderId: "265583384272",
-  appId: "1:265583384272:web:cb57c01af1436ca89bb0d5",
-  measurementId: "G-VYCMBR7C95"
+  apiKey: "AIzaSyD5UnogGBXCUCoBhfov3c6YFXLWSTk0vag",
+  authDomain: "cahgroupproject.firebaseapp.com",
+  projectId: "cahgroupproject",
+  storageBucket: "cahgroupproject.appspot.com",
+  messagingSenderId: "465826634355",
+  appId: "1:465826634355:web:764f2593a08d364b9be806",
+  measurementId: "G-PKWHF889C6"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -137,6 +137,7 @@ const checkUserSignIn = () => {
       });
       if (response.status === 200) {
         setUser({ username });
+        console.log("we set the user to: ", username);
         navigate("/lobbypage");
         checkUserSignIn(); // Call after successful login or registration
       } else {

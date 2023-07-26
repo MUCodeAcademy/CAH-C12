@@ -12,10 +12,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
+
+  const navigateToAbout = () => {
+    navigate("/about");
+  }
   const [nav, setNav] = React.useState(null);
   const [anchorEl2, setAnchorEl2] = React.useState(null);
   const navigate = useNavigate();
@@ -41,40 +47,13 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-        <div>
-        <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            sx={{ mr: 2 }}
-            onClick={handleNav}
-          >
-            <MenuIcon />
-          </IconButton>
-            <Menu
-                id="menu-appbar"
-                anchorEl2={anchorEl2}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorEl2)}
-                onClose={handleClose2}
-              >
-                <MenuItem onClick={handleClose2}><Link to="/">Login</Link></MenuItem>
-                <MenuItem onClick={handleClose2}><Link to="/lobbypage">Lobby</Link></MenuItem>
-              </Menu>
-              </div>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Leader Board
+          </Typography>
+          <Typography variant='h6' component="div" sx={{ flexGrow: 1, cursor: 'pointer' }}
+            onClick={navigateToAbout}
+          >
+            About
           </Typography>
           {auth && (
             <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import Box from '@mui/material/Box';
+//import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Card from "@mui/material/Card";
@@ -59,7 +59,7 @@ export default function WinDisplay(props) {
     let navigate = useNavigate(); 
     const handleLobbyReturn = () => {
         let path = './LoginPage';
-        Navigate(path);
+        navigate(path);
     }
 
     return(
