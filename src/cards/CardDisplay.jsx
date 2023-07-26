@@ -1,7 +1,5 @@
-import React from "react";
-import { styled } from "@mui/material";
+import React, { useEffect } from "react";
 import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
-import CardContent from "@mui/material/CardContent";
 import { useCardDisplayContext } from "../context/CardDisplayContext";
 import { PromptHandler, UserHandler } from "./CardHandler";
 
@@ -52,7 +50,7 @@ let playersTurn = false;
 
 export const BlackCardDisplay = (promptCard) => {
     promptCard = PromptHandler();
-    let playersTurn = false;
+    playersTurn = false;
 
     //Bring to state
     const {setSelectedCard} = useCardDisplayContext();
@@ -65,12 +63,8 @@ export const BlackCardDisplay = (promptCard) => {
                             <BlackCardStyle>
                                 <CardContent>
                                     {data}
-                                    {playersTurn && <Button
-                                        variant="solid"
-                                        size="sm"
-                                        color="primary"
-                                        aria-label="Explore Bahamas Islands"
-                                        sx={{ ml: "auto", fontWeight: 600 }}
+                                    {!playersTurn && <Button
+                                        variant = 'contained' size = 'sm'
                                         onClick={() => {
                                             setSelectedCard(data);
                                     }}>
@@ -90,7 +84,7 @@ export const BlackCardDisplay = (promptCard) => {
 export const WhiteCardDisplay = (userCards) => {
     userCards = UserHandler();
 
-    const [ selectedCard, setSelectedCard ] = useState('');
+    const { selectedCard, setSelectedCard } = useCardDisplayContext();
 
     playersTurn = true;
 
@@ -124,4 +118,3 @@ export const WhiteCardDisplay = (userCards) => {
       </Box>
     )
 }
-
