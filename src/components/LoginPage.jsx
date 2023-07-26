@@ -22,7 +22,6 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
 //axios
 import axios from 'axios';
-import { FormControl, FormLabel } from '@mui/material';
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5UnogGBXCUCoBhfov3c6YFXLWSTk0vag",

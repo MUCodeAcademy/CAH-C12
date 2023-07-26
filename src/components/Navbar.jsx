@@ -24,7 +24,6 @@ export default function Navbar() {
   }
   const [nav, setNav] = React.useState(null);
   const [anchorEl2, setAnchorEl2] = React.useState(null);
-  const navigate = useNavigate();
 
 
   const handleProfile = (event) => {
