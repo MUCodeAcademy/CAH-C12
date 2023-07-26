@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useLobbyContext} from '../context/LobbyContext';
 
 function Lobby() {
   const [tables, setTables] = useState([
@@ -8,14 +9,18 @@ function Lobby() {
   ]);
   const [selectedTable, setSelectedTable] = useState(null);
 
+  const { table, joinTable, leaveTable } = useLobbyContext();
+
   const handleTableSelect = (tableId) => {
     setSelectedTable(tableId);
+    console.log("You selected table: ", tableId )
   };
 
   const handleJoinTable = () => {
     
     if (selectedTable) {
-      console.log(`Joined table ${selectedTable}`);
+      joinTable(selectedTable);
+
     } else {
       console.log('No table selected');
     }
@@ -34,7 +39,7 @@ function Lobby() {
           </li>
         ))}
       </ul>
-      <button onClick={handleJoinTable}>Join Table</button>
+      <button onMouseDown={handleJoinTable}>Join Table</button>
     </div>
   );
 }

@@ -17,12 +17,18 @@ export const LobbyProvider = (props) => {
   const [table, dispatch] = useReducer(lobbyReducer, initialTable || INITIAL_TABLE_STATE);
 
   const joinTable = useCallback(
-    (tableInfo) => dispatch({ type: JOIN_TABLE, payload: tableInfo }),
+    (tableInfo) => {
+      console.log("Joined table with: ", tableInfo);
+      dispatch({ type: JOIN_TABLE, payload: tableInfo });
+    },
     [dispatch]
   );
 
   const leaveTable = useCallback(
-    () => dispatch({type: LEAVE_TABLE})
+    () => {
+      dispatch({type: LEAVE_TABLE});
+      console.log("left table");
+    }
   );
 
   return (
