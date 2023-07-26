@@ -76,7 +76,6 @@ export default function LoginPage() {
     const provider = new GoogleAuthProvider();
     
     signInWithRedirect(auth, provider);
-    // checkUserSignIn();
   }
 
 
@@ -138,6 +137,7 @@ const checkUserSignIn = () => {
       });
       if (response.status === 200) {
         setUser({ username });
+        console.log("we set the user to: ", username);
         navigate("/lobbypage");
         checkUserSignIn(); // Call after successful login or registration
       } else {

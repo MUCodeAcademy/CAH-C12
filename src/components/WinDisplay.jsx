@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from 'react-router-dom';
 
 
-export function WinDisplay(props) {
+export default function WinDisplay(props) {
     // This should 
     // 1) Display winner and rankings (will get points/winner from props)
     // 2) Display buttons to either vote/force restart and Quit to title

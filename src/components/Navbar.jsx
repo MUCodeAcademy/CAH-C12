@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,20 +22,32 @@ export default function Navbar() {
   const navigateToAbout = () => {
     navigate("/about");
   }
+  const [nav, setNav] = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const navigate = useNavigate();
 
-  const handleMenu = (event) => {
+
+  const handleProfile = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleNav = (event) => {
+    setAnchorEl2(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Leader Board
           </Typography>
           <Typography variant='h6' component="div" sx={{ flexGrow: 1, cursor: 'pointer' }}
@@ -47,9 +60,9 @@ export default function Navbar() {
               <IconButton
                 size="large"
                 aria-label="account of current user"
-                aria-controls="menu-appbar"
+                aria-controls="profile-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleProfile}
                 color="inherit"
               >
                 <AccountCircle />
