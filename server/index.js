@@ -8,7 +8,7 @@ const port = process.env.REACT_APP_DB_PORT;
 const server = require("http").createServer(app);  
 const io = require("socket.io")(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: ["http://localhost:3000", "http://192.168.0.41:3000"],
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -26,12 +26,12 @@ app.use('/lobby', lobbyRoutes);
 io.on("connection", (socket) => {
     console.log(`New Client Connected: ${socket.id}`);
 
-
-
-
 //WEBSOCKETS SERVER SIDE TEMPLATE COMMENTED OUT BELOW FROM LINE 32 TO 100 TO NOT INTERFERE WITH DEVELOPMENT.
 
-/*
+// socket.on("chat message", (msg) => {
+//     io.emit("chat message", msg);
+// });
+
 
 //------------------------------------------------------------------------------------     
 //START GAME    
@@ -99,7 +99,19 @@ socket.on("winner", (suspectedWinner) => {
    io.emit("winner-of-game", suspectedWinner);
    }); 
 
-*/   
+  
+//--------------------------------------------------------------------------- 
+//IN APP CHAT MESSAGING
+   socket.on("join_room", (data) => {
+    socket.join(data);
+  });
+
+socket.on("send_message", (data) => {
+    socket.broadcast.emit("receive_message", data);
+});
+
+//--------------------------------------------------------------------------- 
+//LOBBY PAGE
 
 
 //--------------------------------------------------------------------------- 
@@ -108,7 +120,7 @@ socket.on("winner", (suspectedWinner) => {
         console.log("Client Disconnected");
     });
   });
-// server.listen(port);
+  server.listen(3306);
 
 server.listen(port, () => {
     console.log("App is listening at: " + port);

@@ -1,10 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import {useLobbyContext} from '../context/LobbyContext';
-import {useUserContext} from '../context/UserContext';
-import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-
+import React, { useState } from 'react';
 
 function Lobby() {
   const {user} = useUserContext();
@@ -18,6 +12,7 @@ function Lobby() {
   const handleTableSelect = (tableId) => {
     setSelectedTable(tableId);
   };
+  const userArray = [];
 
   const handleJoinTable = () => {
     console.log("player from context: ", user);
@@ -35,33 +30,6 @@ function Lobby() {
       console.log('No table selected');
     }
   };
-  useEffect(() => {
-    console.log(user.username);
-  }, [userArray]);
-
-  //Still deciding whether it should be sepereate cards or not
-  const Lobby = (
-    <React.Fragment>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Lobby
-        </Typography>
-        <Typography variant="body2">
-          <br />
-          <br />
-          Insert Player in lobby here
-          {userArray.map((username, index) => (
-            <GridItem key={index}>{username}</GridItem>
-          ))}
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => handleTableSelect()}>Join Lobby</Button>
-      </CardActions>
-    </React.Fragment>
-  );
 
   return (
     <div>
