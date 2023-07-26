@@ -112,7 +112,16 @@ function About() {
             </Grid>
             <Grid container item xs={12} sm={6} sx={{ padding: '0 20px' }}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Madison" src={Maddie} sx={{ width: 150, height: 150 }} />
+                    <Avatar alt="Maddie" src={Maddie} sx={{ 
+                        width: 150, 
+                        height: 150,
+                        '& img': {
+                            objectFit: 'cover',
+                            // changing the percentage should move the picture down, but it currently isn't so that's cool
+                            objectPosition: 'right 80%', 
+                            backgroundColor: 'black'
+                        }
+                         }} />
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ padding: '0 20px' }}>
                     <Box>
