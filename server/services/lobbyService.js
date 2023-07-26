@@ -1,5 +1,3 @@
-
-
 const tables = [
     { id: 1, name: 'Table 1', players: [] },
     { id: 2, name: 'Table 2', players: [] },
@@ -12,11 +10,16 @@ exports.tables = (req, res) => {
 
 exports.join = (req, res) => {
     const tableId = req.params.tableId;
-    const player = req.body.player; // this assumes we send player info in the request body
+    const player = req.body.player;
 
     const table = tables.find(table => table.id === Number(tableId));
 
     if (table) {
+        // This currently doesn't work
+        if (table.players.includes(player)) {
+            res.status(400).json({ error: "Player is already in the table" });
+            return;
+        }
         table.players.push(player);
         res.json(table);
         console.log(table);
