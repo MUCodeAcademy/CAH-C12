@@ -1,3 +1,4 @@
+import { LobbyProvider } from './LobbyContext';
 import { UserProvider } from './UserContext';
 import { CardDisplayProvider } from './CardDisplayContext';
 import { GameDisplayProvider } from './GamePageContext';
@@ -5,9 +6,11 @@ import { GameDisplayProvider } from './GamePageContext';
 export default function StateProvider(props) {
     return (
         <UserProvider>
-            <CardDisplayProvider>
+            <LobbyProvider>
+               <CardDisplayProvider>
                 {props.children}
-            </CardDisplayProvider>
+              </CardDisplayProvider>
+            </LobbyProvider>
         </UserProvider>
     )
 }

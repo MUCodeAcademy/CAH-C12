@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import StateProvider  from './context/index.js';
+import { LobbyProvider } from './context/LobbyContext';
 
 
 // import reportWebVitals from './reportWebVitals';
@@ -11,8 +12,8 @@ import StateProvider  from './context/index.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-  <StateProvider>
-    <App />
+    <StateProvider>
+        <App />
     </StateProvider>
   </React.StrictMode>
 );

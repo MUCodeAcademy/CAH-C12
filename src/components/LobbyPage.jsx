@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import {useLobbyContext} from '../context/LobbyContext';
+import {useUserContext} from '../context/UserContext';
 import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import { useUserContext } from '../context/UserContext';
-
-const GridItem = styled((props) => (
-  <Grid item xs {...props} /> ))
-  ({
-      margin: 0,
-      rowSpacing: 0.5,
-      columnSpacing: 0.5
-  })
 
 
 function Lobby() {
@@ -21,23 +14,23 @@ function Lobby() {
     { id: 3, name: 'Table 3' },
   ]);
   const [selectedTable, setSelectedTable] = useState(null);
-  const userArray = [];
-
+  const { table, joinTable, leaveTable } = useLobbyContext();
   const handleTableSelect = (tableId) => {
     setSelectedTable(tableId);
-    console.log(user.username);
-    userArray.push(user.username);
-    if(userArray.length === 1){
-      //This means the new user is first and the host on there waiting screen display a button to start
-    } else if(userArray.length === 4){
-      //Start the game and route to GamePage
-    }
   };
 
   const handleJoinTable = () => {
+    console.log("player from context: ", user);
     
     if (selectedTable) {
-      console.log(`Joined table ${selectedTable}`);
+      joinTable(selectedTable, user);
+      console.log(user.username);
+      userArray.push(user.username);
+      if(userArray.length === 1){
+        //This means the new user is first and the host on there waiting screen display a button to start
+      } else if(userArray.length === 4){
+        //Start the game and route to GamePage
+      }
     } else {
       console.log('No table selected');
     }
@@ -72,20 +65,18 @@ function Lobby() {
 
   return (
     <div>
-      <h1>Lobby</h1>
-      <hr />
-      <Grid container spacing={8} justifyContent="center">
-          <Grid item>
-            <Card variant="outlined">{Lobby}</Card>
-          </Grid>
-          <Grid item>
-            <Card variant="outlined">{Lobby}</Card>
-          </Grid>
-          <Grid item>
-            <Card variant="outlined">{Lobby}</Card>
-          </Grid>
-      </Grid>
-      
+      <h2>Lobby</h2>
+      <h3>Available Tables:</h3>
+      <ul>
+        {tables.map((table) => (
+          <li key={table.id}>
+            <button onClick={() => handleTableSelect(table.id)}>
+              {table.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleJoinTable}>Join Table</button>
     </div>
   );
 }
