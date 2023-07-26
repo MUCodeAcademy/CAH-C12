@@ -20,7 +20,6 @@ function App() {
         <Route path="/lobbypage" element={<Lobby/>}/>
         <Route path="/about" element={<About />} />
       </Routes>
-      <WhiteCardDisplay/>
     </Router>
   );
 }
