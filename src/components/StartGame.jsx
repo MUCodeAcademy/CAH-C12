@@ -33,19 +33,19 @@ const socket = io('http://localhost:3001');
       array[randomIndex] = temporaryValue;
     }
 
-  useEffect(() => {
-    let timer;
+    useEffect(() => {
+      let timer;
 
-    if (isPlaying) {
-      timer = setTimeout(() => {
-        handleNextPlayer();
-      }, 20000); 
+      if (isPlaying) {
+        timer = setTimeout(() => {
+          handleNextPlayer();
+        }, 20000); 
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [isPlaying, currentPlayerIndex]);
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    }, [isPlaying, currentPlayerIndex]);
 
     return array;
     };
@@ -103,9 +103,11 @@ const socket = io('http://localhost:3001');
         console.log(`${currentPlayer.name} has not played a card.`);
         return;
     }
+
     const updatedPlayers = players.map((player, index) =>
     index === currentPlayerIndex ? { ...player, selectedCard: null } : player
-  );
+    );
+
     setPlayers(updatedPlayers);
     
     socket.emit('playCard', { selectedCard: null, currentPlayerIndex });
@@ -113,6 +115,7 @@ const socket = io('http://localhost:3001');
     const allPlayersPlayedCard = updatedPlayers.every(
         (player) => player.selectedCard !== null
     );
+
     if (allPlayersPlayedCard) {
         const roundWinnerIndex = 0;
         const updatedPlayerWithScore =  [...players];
@@ -133,29 +136,6 @@ const socket = io('http://localhost:3001');
     }
 
   };
-//   //Main game function will send both info and a "true" value out
-//   //The info will be game settings
-//   //True will be used to change "started" and render the game
-//   const handleStartGame = () => {
-//     setGameStarted(true);
-//     handleGame();
-//   };
-
-//   //Instead of passivly handling cards we can just make/force auto draw for cards
-//   const handleDealCards = () => {
-//     setCardsDealt(true);
-//     handleNextPlayer();
-//     handleCards();
-//   };
-
-//   const handleNextPlayer = () => {
-//     setIsPlaying(false);
-//     setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
-//   };
-//   //Great way to change Card Zar main thing is that we give the players an Id or value to be called by
-//   const handleNextJudge = () => {
-//     setCurrentJudgeIndex((prevIndex) => (prevIndex + 1) % players.length);
-//   };
 
 
   const handlePlayCard = (selectedCard) => {
@@ -211,42 +191,4 @@ const socket = io('http://localhost:3001');
       )}
     </div>
   );
-
-
-//   const handlePlayCard = () => {
-//     console.log(`${players[currentPlayerIndex].name} played a card.`);
-//     handleNextPlayer();
-//     handlePlay();
-//   };
-
-//   // Uses the listeners for the socket connection
-//   useEffect(() => {
-//     listenEvents(socket, setIsPlaying, setCurrentPlayerIndex);
-//   }, [setIsPlaying, setCurrentPlayerIndex]);
-
-//   return (
-//     <div>
-//       <h2>Game</h2>
-//       {!gameStarted && (
-//         <button onClick={handleStartGame}>Start Game</button>
-//       )}
-//       {gameStarted && !cardsDealt && (
-//         <button onClick={handleDealCards}>Deal Cards</button>
-//       )}
-//       {cardsDealt && (
-//         <div>
-//           <h3>Judge: {players[currentJudgeIndex].name}</h3>
-//           <button onClick={handleNextJudge}>Next Judge</button>
-//           <button onClick={() => setIsPlaying(true)}>Start Timer</button>
-//           <button onClick={() => setIsPlaying(false)}>Stop Timer</button>
-//           <button onClick={handlePlayCard} disabled={!isPlaying}>
-//             Play Card
-//           </button>
-//           <p>Current Player: {players[currentPlayerIndex].name}</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default StartGame;
+}
