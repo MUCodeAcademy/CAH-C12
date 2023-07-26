@@ -24,7 +24,7 @@ export function GameDisplay() {
 const [playersSet, setPlayersSet] = useState([]);
 //const {playerSet} = useLobbyContext();
 const [userScores] = [0,0,0,0];
-//const {userScore} = useWinDisplayContext();
+//This is sorted and output as ranks[]
 
 //This is for a function yet to be made but detailed in the Body
 const {selectedCard, setSelectedCard} = useCardDisplayContext();

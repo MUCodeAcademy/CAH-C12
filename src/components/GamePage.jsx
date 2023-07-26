@@ -1,7 +1,6 @@
 import React from 'react';
 import { useUserContext } from '../context/UserContext';
 import Rules from './Rules';
-import CardDisplay from '../cards/CardDisplay';
 import WinDisplay from './WinDisplay';
 import GameDisplay from './GameDisplay';
 
@@ -15,7 +14,7 @@ export default function GamePage(props) {
     //const {ranks} = useGameDisplayContext();
 
     //soon to be state variables
-    const started = false;
+    const started = true;
     const playersTurn = false;
     const finished = false;
 
