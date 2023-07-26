@@ -76,7 +76,6 @@ export default function LoginPage() {
     const provider = new GoogleAuthProvider();
     
     signInWithRedirect(auth, provider);
-    // checkUserSignIn();
   }
 
 

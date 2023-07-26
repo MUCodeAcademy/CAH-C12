@@ -1,40 +1,37 @@
 import React from 'react';
 import { useUserContext } from '../context/UserContext';
 import Rules from './Rules';
-import CardDisplay from '../cards/CardDisplay';
 import WinDisplay from './WinDisplay';
 import GameDisplay from './GameDisplay';
+import { useGameContext } from '../path/to/gameReducer';
 
 export default function GamePage(props) {
-    const {user} = useUserContext;
-    //useLobbyContext
-    const lobbyId = props.lobbyId;
-
+    const { user } = useUserContext();
+    const { state } = useGameContext();
+    //Way to set / change players turn
+    const { started, playersTurn, finished, lobbyId } = state;
     const isPlaying = false;
     //const {isPlaying} = useGameDisplayContext();
     //const {ranks} = useGameDisplayContext();
 
     //soon to be state variables
-    const started = false;
-    const playersTurn = false;
-    const finished = false;
 
     const handleStart = () => {
-        //
-    }
+        // Update the game state to indicate that the game has started.
+    };
 
     const handleGameState = () => {
-        //
-    }
+        // Handle changes to the game state.
+    };
 
     const handleEnding = () => {
-        //
-    }
+        // Handle the end of the game.
+    };
 
-    return(
+    return (
         <>
-           <div> - GamePage - </div>
-           <Rules/>
+            <div> - GamePage - </div>
+            <Rules />
            {started &&  
             <div>
                 {isPlaying 
@@ -50,5 +47,6 @@ export default function GamePage(props) {
             </div>
             }
         </>
-    )
+    );
 }
+

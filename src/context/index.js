@@ -8,7 +8,11 @@ export default function StateProvider(props) {
         <UserProvider>
             <LobbyProvider>
                <CardDisplayProvider>
-                {props.children}
+                  <GameDisplayProvider>
+                    <RankProvider>
+                      {props.children}
+                    </RankProvider>
+                  </GameDisplayProvider>
               </CardDisplayProvider>
             </LobbyProvider>
         </UserProvider>

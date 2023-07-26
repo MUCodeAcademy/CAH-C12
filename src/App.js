@@ -1,5 +1,5 @@
 import LoginPage from "./components/LoginPage.jsx"
-//import RegisterPage from "./components/RegisterPage.jsx"
+// import RegisterPage from "./components/RegisterPage.jsx"
 import './App.css';
 import React from 'react';
 import About from './components/About/About.jsx';
