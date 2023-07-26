@@ -1,18 +1,19 @@
-import React, { createContext, useCallback, useContext } from 'react';
+import React, { createContext, useCallback, useContext, useReducer } from 'react';
 
 import{
     INITIAL_CARD_DISPLAY,
     SET_SELECTED_CARD,
     CLEAR_SELECTED_CARD,
+    cardPageReducer
 } from '../reducers/cardPageReducer';
 
-const CardDisplayContext = createContext(null);
+const CardDisplayContext = createContext([]);
 
 export const useCardDisplayContext = () => {
     return useContext(CardDisplayContext);
 }
 
-export const CardDisplayProvider = () => {
+export const CardDisplayProvider = (props) => {
     const [selectedCard, dispatch] = useReducer(cardPageReducer, INITIAL_CARD_DISPLAY);
 
     const setSelectedCard = useCallback(
@@ -25,7 +26,7 @@ export const CardDisplayProvider = () => {
     );
 
     return(
-        <CardDisplayContext.Provider value={({selectedCard, setSelectedCard})}>
+        <CardDisplayContext.Provider value={({selectedCard, setSelectedCard, clearSelectedCard})}>
             {props.children}
         </CardDisplayContext.Provider>
     )

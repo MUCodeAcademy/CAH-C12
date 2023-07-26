@@ -1,7 +1,5 @@
-import React from "react";
-import { styled } from "@mui/material";
+import React, { useEffect }from "react";
 import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
-import CardContent from "@mui/material/CardContent";
 import { useCardDisplayContext } from "../context/CardDisplayContext";
 import { PromptHandler, UserHandler } from "./CardHandler";
 
@@ -90,13 +88,13 @@ export const BlackCardDisplay = (promptCard) => {
 export const WhiteCardDisplay = (userCards) => {
     userCards = UserHandler();
 
-    const [ selectedCard, setSelectedCard ] = useState('');
+    const {selectedCard, setSelectedCard} = useCardDisplayContext();
 
     playersTurn = true;
 
-    useEffect(() => {
-        console.log(selectedCard.key)
-    }, [selectedCard]);
+    // useEffect(() => {
+    //     console.log(selectedCard.key)
+    // }, [selectedCard]);
     return (
       <Box>
         <Grid container>
@@ -110,7 +108,6 @@ export const WhiteCardDisplay = (userCards) => {
                     variant = 'contained' size = 'sm'
                     onClick = {() => {
                         setSelectedCard(data);
-                        //console.log(selectedCard);
                     }}>
                       Submit Card
                     </Button>
