@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useReducer } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useEffect } from 'react';
 import {
   INITIAL_TABLE_STATE,
   JOIN_TABLE,
@@ -13,27 +13,53 @@ export const useLobbyContext = () => {
 }
 
 export const LobbyProvider = (props) => {
-  const {table: initialTable} = props;
-  const [table, dispatch] = useReducer(lobbyReducer, initialTable || INITIAL_TABLE_STATE);
+  const [tables, dispatch] = useReducer(lobbyReducer, []);
 
-  const joinTable = useCallback(
-    (tableInfo) => {
-      console.log("Joined table with: ", tableInfo);
-      dispatch({ type: JOIN_TABLE, payload: tableInfo });
-    },
-    [dispatch]
-  );
-
-  const leaveTable = useCallback(
-    () => {
-      dispatch({type: LEAVE_TABLE});
-      console.log("left table");
+  const fetchTables = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/lobby/tables');  // this is probably wrong
+      const data = await response.json();
+      dispatch({ type: 'SET_TABLES', payload: data });
+    } catch (error) {
+      console.error("Failed to fetch tables:", error);
     }
-  );
+  };
+
+  const joinTable = async (tableId, player) => {
+    try {
+      const response = await fetch(`http://localhost:8080/lobby/join/${tableId}`, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ player })
+      });
+      const data = await response.json();
+      dispatch({ type: JOIN_TABLE, payload: data });  // assuming server returns the updated table
+    } catch (error) {
+      console.error("Failed to join table:", error);
+    }
+  };
+
+  const leaveTable = async (tableId, player) => {
+    try {
+      const response = await fetch(`http://localhost:8080/lobby/leave/${tableId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ player })
+      });
+      const data = await response.json();
+      dispatch({ type: LEAVE_TABLE, payload: data }); // assuming server returns the updated table
+    } catch (error) {
+      console.error("Failed to leave table:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTables();
+  }, []);
 
   return (
-    <LobbyContext.Provider value={{ table, joinTable, leaveTable }}>
+    <LobbyContext.Provider value={{ tables, joinTable, leaveTable }}>
       {props.children}
     </LobbyContext.Provider>
-  )
-}
+  );
+};
