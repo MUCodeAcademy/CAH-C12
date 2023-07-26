@@ -6,6 +6,8 @@ import {
   lobbyReducer
 } from "../reducers/lobbyPageReducer";
 
+const port = process.env.REACT_APP_DB_PORT;
+
 const LobbyContext = createContext(null);
 
 export const useLobbyContext = () => {
@@ -17,7 +19,7 @@ export const LobbyProvider = (props) => {
 
   const fetchTables = async () => {
     try {
-      const response = await fetch('http://localhost:8080/lobby/tables');  // this is probably wrong
+      const response = await fetch(`http://localhost:${port}/lobby/tables`);  // this should get the current tables
       const data = await response.json();
       dispatch({ type: 'SET_TABLES', payload: data });
     } catch (error) {
@@ -27,7 +29,7 @@ export const LobbyProvider = (props) => {
 
   const joinTable = async (tableId, player) => {
     try {
-      const response = await fetch(`http://localhost:8080/lobby/join/${tableId}`, { 
+      const response = await fetch(`http://localhost:${port}/lobby/join/${tableId}`, { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ player })
@@ -41,7 +43,7 @@ export const LobbyProvider = (props) => {
 
   const leaveTable = async (tableId, player) => {
     try {
-      const response = await fetch(`http://localhost:8080/lobby/leave/${tableId}`, {
+      const response = await fetch(`http://localhost:${port}/lobby/leave/${tableId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ player })
