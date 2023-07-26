@@ -6,7 +6,8 @@ import { PromptHandler, UserHandler } from '../cards/CardHandler';
 import { Button, Paper, Box } from '@mui/material';
 import { WinDisplay } from './WinDisplay';
 import { useCardDisplayContext } from '../context/CardDisplayContext';
-
+import { start } from 'repl';
+import {Timer} from './Timer';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -20,6 +21,30 @@ export function GameDisplay() {
     //
 
     //TODO: make a timer component to render below
+    const [timer, setTimerActive] = useState(false);
+    const {selectedCard, setSelectedCard} = useCardDisplayContext();
+
+    const handleTimerExpired = () => {
+        if (selectedCard) {
+            handleSubmitions(selectedCard);
+        }
+    };
+
+    const startTimer = () => {
+        setTimerActive(true);
+        setTimeout(() => {
+            setTimerActive(false);
+            handleTimerExpired();
+        }, 20000);
+    };
+
+    const handleCardSelection = (card) => {
+        if (!timer) {
+           setSelectedCard(card);
+           setTimerActive(false);
+           startTimer();
+        }
+    };
 
 const [playersSet, setPlayersSet] = useState([]);
 //const {playerSet} = useLobbyContext();
@@ -27,7 +52,7 @@ const [userScores] = [0,0,0,0];
 //const {userScore} = useWinDisplayContext();
 
 //This is for a function yet to be made but detailed in the Body
-const {selectedCard, setSelectedCard} = useCardDisplayContext();
+
 const previousSelectedCard = "";
 
 const [userCards,setUserCards] = useState(PromptHandler);

@@ -59,11 +59,7 @@ function StartGame() {
 
   //Main game function will send both info and a "true" value out
   //The info will be game settings
-  //True will be used to change "started" and render the game
-  const handleStartGame = () => {
-    setGameStarted(true);
-    handleGame();
-  };
+
 
   //Instead of passivly handling cards we can just make/force auto draw for cards
   const handleDealCards = () => {
@@ -80,8 +76,13 @@ function StartGame() {
     socket.emit('dealCards', updatedPlayers);
     
     setCardsDealt(true);
-    
-    };
+  };
+
+  const handleStartGame = () => {
+    setGameStarted(true);
+    handleGame();
+    handleDealCards(); // Automatically deal cards when the game starts
+  };
 
   const handleNextPlayer = (selectedCard) => {
     const currentPlayer = players[currentPlayerIndex];
@@ -89,8 +90,9 @@ function StartGame() {
         console.log(`${currentPlayer.name} has not played a card.`);
         return;
     }
-    const updatedPlayers = [...players];
-    updatedPlayers[currentPlayerIndex].selectedCard = null;
+    const updatedPlayers = players.map((player, index) =>
+    index === currentPlayerIndex ? { ...player, selectedCard: null } : player
+  );
     setPlayers(updatedPlayers);
     
     socket.emit('playCard', { selectedCard: null, currentPlayerIndex });
@@ -125,20 +127,28 @@ function StartGame() {
   };
 
 
-  const handlePlayCard = () => {
+  const handlePlayCard = (selectedCard) => {
     const currentPlayer = players[currentPlayerIndex];
     if (currentPlayer.selectedCard !== null) {
       console.log(`${currentPlayer.name} has already played a card.`);
       return;
     }
+
+    if (!selectedCard) {
+      console.error('No card selected.');
+      return;
+    }
     
-    const updatedPlayers = [...players];
-    updatedPlayers[currentPlayerIndex].selectedCard = selectedCard;
+    const updatedPlayers = players.map((player, index) => 
+      index === currentPlayerIndex
+        ? { ...player, selectedCard: selectedCard }
+        : player
+    );
+
     setPlayers(updatedPlayers);
 
     
     socket.emit('playCard', { selectedCard: card, currentPlayerIndex });
-    handleNextPlayer();
   };
 
     console.log(`${players[currentPlayerIndex].name} played a card.`);
@@ -146,11 +156,6 @@ function StartGame() {
     handlePlay();
   };
 
-<<<<<<< HEAD
-
-=======
-  // Uses the listeners for the socket connection
->>>>>>> 75eb9bf0947fedc0dfecbfae798f47822d3bfa58
   useEffect(() => {
     listenEvents( setIsPlaying, setCurrentPlayerIndex);
   }, [setIsPlaying, setCurrentPlayerIndex]);
@@ -178,7 +183,7 @@ function StartGame() {
       )}
     </div>
   );
-}}
+
 
 export default StartGame;
 
