@@ -1,4 +1,4 @@
-import React, { useEffect }from "react";
+import React, { useEffect } from "react";
 import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import { useCardDisplayContext } from "../context/CardDisplayContext";
 import { PromptHandler, UserHandler } from "./CardHandler";
@@ -50,7 +50,7 @@ let playersTurn = false;
 
 export const BlackCardDisplay = (promptCard) => {
     promptCard = PromptHandler();
-    let playersTurn = false;
+    playersTurn = false;
 
     //Bring to state
     const {setSelectedCard} = useCardDisplayContext();
@@ -63,12 +63,8 @@ export const BlackCardDisplay = (promptCard) => {
                             <BlackCardStyle>
                                 <CardContent>
                                     {data}
-                                    {playersTurn && <Button
-                                        variant="solid"
-                                        size="sm"
-                                        color="primary"
-                                        aria-label="Explore Bahamas Islands"
-                                        sx={{ ml: "auto", fontWeight: 600 }}
+                                    {!playersTurn && <Button
+                                        variant = 'contained' size = 'sm'
                                         onClick={() => {
                                             setSelectedCard(data);
                                     }}>
@@ -88,13 +84,13 @@ export const BlackCardDisplay = (promptCard) => {
 export const WhiteCardDisplay = (userCards) => {
     userCards = UserHandler();
 
-    const {selectedCard, setSelectedCard} = useCardDisplayContext();
+    const { selectedCard, setSelectedCard } = useCardDisplayContext();
 
     playersTurn = true;
 
-    // useEffect(() => {
-    //     console.log(selectedCard.key)
-    // }, [selectedCard]);
+    useEffect(() => {
+        console.log(selectedCard.key)
+    }, [selectedCard]);
     return (
       <Box>
         <Grid container>
@@ -108,6 +104,7 @@ export const WhiteCardDisplay = (userCards) => {
                     variant = 'contained' size = 'sm'
                     onClick = {() => {
                         setSelectedCard(data);
+                        //console.log(selectedCard);
                     }}>
                       Submit Card
                     </Button>
@@ -121,4 +118,3 @@ export const WhiteCardDisplay = (userCards) => {
       </Box>
     )
 }
-
