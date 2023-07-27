@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import StateProvider  from './context/index.js';
-import { LobbyProvider } from './context/LobbyContext';
 
 
 // import reportWebVitals from './reportWebVitals';

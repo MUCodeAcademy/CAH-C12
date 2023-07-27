@@ -6,7 +6,7 @@ import { PromptHandler, UserHandler } from '../cards/CardHandler';
 import { Paper, Box } from '@mui/material';
 import { WinDisplay } from './WinDisplay';
 import { useCardDisplayContext } from '../context/CardDisplayContext';
-import { start } from 'repl';
+//import { start } from 'repl';
 import {Timer} from './Timer';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -22,12 +22,6 @@ export function GameDisplay(props) {
 
     //TODO: make a timer component to render below
     const [timer, setTimerActive] = useState(false);
-
-    const handleTimerExpired = () => {
-        if (selectedCard) {
-            handleSubmitions(selectedCard);
-        }
-    };
 
     const startTimer = () => {
         setTimerActive(true);
@@ -88,7 +82,7 @@ export function GameDisplay(props) {
 
         //TODO : card should be an object with the text(for card display) & playerId (who played it)
 
-    const handleSubmissions = (card) => {
+    const handleSubmitions = (card) => {
         setSubmittedCard([...sumbittedCards, card]);
         if(sumbittedCards.length === 4){
             //Send the Cards to the Card Zar
@@ -115,6 +109,12 @@ export function GameDisplay(props) {
         setPromptCard(promptCard);
         setUserCards(userCards);
     }
+
+    const handleTimerExpired = () => {
+        if (selectedCard) {
+            handleSubmitions(selectedCard);
+        }
+    };
 
 
     function gameState() {
@@ -148,7 +148,7 @@ export function GameDisplay(props) {
                     <Item>Player 2's Cards</Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item><BlackCardDisplay promptCard={promptCard}/></Item>
+                    <Item><BlackCardDisplay promptCard={promptCard} isPlaying={isPlaying}/></Item>
                 </Grid>
                 <Grid xs={4}>
                     <Item>Player 4's Cards</Item>
@@ -157,7 +157,7 @@ export function GameDisplay(props) {
                     <Item>5</Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item><WhiteCardDisplay userCards={userCards}/></Item>
+                    <Item><WhiteCardDisplay userCards={userCards} isPlaying={isPlaying}/></Item>
                 </Grid>
                 <Grid xs={3}>
                     <Item>{isPlaying && '<Timer />'}</Item>
@@ -166,3 +166,5 @@ export function GameDisplay(props) {
         </Box>
     )
 };
+
+export default GameDisplay;

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useUserContext } from '../context/UserContext';
+import { useLobbyContext } from '../context/LobbyContext';
 
 function Lobby() {
   const {user} = useUserContext();

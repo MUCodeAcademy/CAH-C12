@@ -3,16 +3,16 @@ import { useUserContext } from '../context/UserContext';
 import Rules from './Rules';
 import WinDisplay from './WinDisplay';
 import GameDisplay from './GameDisplay';
-import { useGameContext } from '../path/to/gameReducer';
+import  { useGameDisplayContext, useRankContext} from '../context/GameDisplayContext';
 
 export default function GamePage(props) {
     const { user } = useUserContext();
-    const { state } = useGameContext();
-    //Way to set / change players turn
-    const { started, playersTurn, finished, lobbyId } = state;
-    const isPlaying = false;
-    //const {isPlaying} = useGameDisplayContext();
-    //const {ranks} = useGameDisplayContext();
+    const started = true; 
+    const finished  = false;
+    const lobbyId = props.lobbyId;
+
+    const {isPlaying, setIsPlaying } = useGameDisplayContext();
+    const {ranks} = useRankContext();
 
     //soon to be state variables
 

@@ -5,6 +5,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Trevor from './Trevor.png';
 import James from './James.jpeg';
 import Andrew from './Andrew.png';
+import Maddie from './Maddie.jpg';
 
 function About() {
     return (
@@ -111,16 +112,35 @@ function About() {
             </Grid>
             <Grid container item xs={12} sm={6} sx={{ padding: '0 20px' }}>
                 <Grid item xs={12} md={3} justifyContent="center" display="flex">
-                    <Avatar alt="Madison" sx={{ width: 150, height: 150 }} />
+                    <Avatar alt="Maddie" src={Maddie} sx={{ 
+                        width: 150, 
+                        height: 150,
+                        '& img': {
+                            objectFit: 'cover',
+                            // changing the percentage should move the picture down, but it currently isn't so that's cool
+                            objectPosition: 'right 80%', 
+                            backgroundColor: 'black'
+                        }
+                         }} />
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ padding: '0 20px' }}>
                     <Box>
-                        <Typography variant="h4">Madison (or Maddie if you prefer) Keiffer-Rose</Typography>
+                        <Typography variant="h4">Maddie Keiffer-Rose</Typography>
                         <Typography
                             variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
-                            Placeholder Text
+                            I'm a junior developer who started out taking classes in high hchool, 
+                            had an internship at Northrup Grumman at 18, then took 
+                            multiple classes towards a Computer Science Transfer Degree 
+                            at Metropolitan Community College. I loved those experiences, 
+                            but I felt they weren't teaching me enough. I've always loved learning, 
+                            and the challenges that come along with programming. 
+                            That's where CodeAcademy came into play, there I've been able to 
+                            learn the basics of all sorts of useful languages 
+                            (such as React or JavaScript) and really get a firm grasp of 
+                            what the work field will look like. I look forward to gaining more 
+                            knowledge and getting started on my career!
                         </Typography>
                         <IconButton
                             color="secondary"

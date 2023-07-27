@@ -6,7 +6,10 @@ import About from './components/About/About.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/Navbar';
 import Lobby from "./components/LobbyPage.jsx";
-import { GameProvider } from './path/to/gameReducer.js';
+ import GamePage from "./components/GamePage.jsx";
+import { WhiteCardDisplay } from "./cards/CardDisplay.jsx";
+import GameDisplay from "./components/GameDisplay.jsx";
+
 
 
 function App() {
