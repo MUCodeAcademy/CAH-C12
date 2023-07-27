@@ -3,8 +3,13 @@ import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import { Typography } from '@mui/material';
 import { useUserContext } from '../context/UserContext';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from "react-router-dom";
+import WaitingScreen from './WaitingScreen';
+
+//TODO: Look at WaitingScreen
+//TODO: Finish CSS
+//TODO: Grab a player array from Lobby to give to GamePage
+//TODO: Check GamePage
 
 const GridItem = styled((props) => (
   <Grid item xs {...props} /> ))
@@ -26,7 +31,8 @@ function Lobby() {
 
   const [selectedTable, setSelectedTable] = useState(null);
   const userArray = [];
-  const [loading, setLoading] = useState(false);
+  let isHost;
+  const [loading, setLoading] = useState(null);
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
@@ -35,9 +41,14 @@ function Lobby() {
   const handleOpen = () => {
     setOpen(true);
   };
+  const navigate = useNavigate();
   
   const handleJoinTable = () => {
+    setSelectedTable(2);
     console.log("player from context: ", user);
+    // console.log(userArray);
+    // console.log(selectedTable);
+    
 
     if (selectedTable) {
       console.log(`Joined table ${selectedTable}`);
@@ -46,20 +57,15 @@ function Lobby() {
       userArray.push(user.username);
       if(userArray.length === 1){
         //This means the new user is first and the host on there waiting screen display a button to start
+        isHost = true;
+        setLoading(true);
+        console.log(`${user.username} is host`);
       } else if (userArray.length > 0 && userArray.length < 4){
-        return (
-        <div className="Lobby">
-        <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-         open={open}
-        onClick={handleClose}
-        >
-        <CircularProgress color="inherit" />
-       </Backdrop>
-        </div>
-      )
+        console.log("hit2");
+        setLoading(true);
       } else if(userArray.length === 4){
         //Start the game and route to GamePage
+        navigate("/GamePage");
       }
     } else {
       console.log('No table selected');
@@ -92,7 +98,9 @@ function Lobby() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => handleJoinTable()}>Join Lobby</Button>
+        <Button size="small" onClick={() => {
+          setSelectedTable()
+          handleJoinTable()}}>Join Lobby</Button>
       </CardActions>
     </React.Fragment>
   );
@@ -111,16 +119,10 @@ function Lobby() {
           <Grid item>
             <Card variant="outlined">{Lobby}</Card>
           </Grid>
-          <Button onClick={handleOpen}>Show backdrop</Button>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+          {loading ? <WaitingScreen isHost={isHost}/> : 
+            <div></div>
+          }
       </Grid>
-
     </div>
   );
 }
