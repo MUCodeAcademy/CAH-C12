@@ -170,7 +170,14 @@ function About() {
                             variant="body1"
                             style={{ margin:"10px", textAlign: "left", textIndent: "20px" }}
                         >
-                            Placeholder Paragraph
+                            Hello, My name is Shawn. For the last 15+ years I have worked in manufacturing. 
+                            However I have never viewed that as a career as much as just a paycheck. 
+                            I have always been interested in technology. But I always thought computer science 
+                            was all 1's and 0's. I did some research about computer science and coding. 
+                            And it eventually led me to the Midland code academy. This program has 
+                            taught me a lot and done a good job of preparing all of us for real world experience. 
+                            So I am excited to start on a path towards a more rewarding career that will continue 
+                            to challenge me for years to come.
                         </Typography>
                         <IconButton
                             color="secondary"
