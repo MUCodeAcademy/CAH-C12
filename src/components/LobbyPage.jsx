@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 import { useUserContext } from '../context/UserContext';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const GridItem = styled((props) => (
   <Grid item xs {...props} /> ))
@@ -24,18 +26,15 @@ function Lobby() {
 
   const [selectedTable, setSelectedTable] = useState(null);
   const userArray = [];
-
-  const handleTableSelect = (tableId) => {
-    setSelectedTable(tableId);
-    console.log(user.username);
-    userArray.push(user.username);
-    if(userArray.length === 1){
-      //This means the new user is first and the host on there waiting screen display a button to start
-    } else if(userArray.length === 4){
-      //Start the game and route to GamePage
-    }
+  const [loading, setLoading] = useState(false);
+  // const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
   };
-
+  const handleOpen = () => {
+    setOpen(true);
+  };
   
   const handleJoinTable = () => {
     console.log("player from context: ", user);
@@ -47,6 +46,18 @@ function Lobby() {
       userArray.push(user.username);
       if(userArray.length === 1){
         //This means the new user is first and the host on there waiting screen display a button to start
+      } else if (userArray.length > 0 && userArray.length < 4){
+        return (
+        <div className="Lobby">
+        <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+         open={open}
+        onClick={handleClose}
+        >
+        <CircularProgress color="inherit" />
+       </Backdrop>
+        </div>
+      )
       } else if(userArray.length === 4){
         //Start the game and route to GamePage
       }
@@ -81,7 +92,7 @@ function Lobby() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => handleTableSelect()}>Join Lobby</Button>
+        <Button size="small" onClick={() => handleJoinTable()}>Join Lobby</Button>
       </CardActions>
     </React.Fragment>
   );
@@ -100,6 +111,14 @@ function Lobby() {
           <Grid item>
             <Card variant="outlined">{Lobby}</Card>
           </Grid>
+          <Button onClick={handleOpen}>Show backdrop</Button>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Grid>
 
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import { BlackCardDisplay, WhiteCardDisplay } from '../cards/CardDisplay';
 import { PromptHandler, UserHandler } from '../cards/CardHandler';
 import { Paper, Box } from '@mui/material';
@@ -42,7 +42,7 @@ export function GameDisplay(props) {
     const [playersSet, setPlayersSet] = useState([]);
     //const {playerSet} = useLobbyContext();
     const [userScores] = [0,0,0,0];
-    //This is sorted and output as ranks[]
+    //This is sorted and output as ranks[];
 
     //This is for a function yet to be made but detailed in the Body
     const {selectedCard, setSelectedCard} = useCardDisplayContext();
@@ -102,6 +102,7 @@ export function GameDisplay(props) {
         };
         handleNextPlayer((currentJudgeIndex + 1)%playersSet.length);
         handleNextJudge(currentJudgeIndex);
+
     };
 
     function displayHands(promptCard,userCards){
