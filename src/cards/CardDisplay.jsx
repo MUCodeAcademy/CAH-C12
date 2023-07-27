@@ -41,8 +41,8 @@ const GridItem = styled((props) => (
     })
 
 export const BlackCardDisplay = (props) => {
-    promptCard = props.promptCard;
-    isPlaying = props.isPlaying;
+    const promptCard = props.promptCard;
+    const isPlaying = props.isPlaying;
 
     //Bring to state
     const {setSelectedCard} = useCardDisplayContext();

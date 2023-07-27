@@ -14,20 +14,28 @@ export default function GamePage(props) {
     const {isPlaying, setIsPlaying } = useGameDisplayContext();
     const {ranks} = useRankContext();
 
-    //soon to be state variables
-
+    
+    //TODO: Start game when the player array is recieved (handleStart())
+    //TODO: After deciding the inital player state (turns, points, and components)
+    //TODO: Pass info off to handleGameState
     const handleStart = () => {
         // Update the game state to indicate that the game has started.
     };
 
+    
+    //TODO: This should also send the player array to GameDisplay
     const handleGameState = () => {
         // Handle changes to the game state.
     };
 
+
+    //TODO: When GameDisplay returns the RANKS[] array handleEnding()
     const handleEnding = () => {
         // Handle the end of the game.
     };
 
+
+    //TODO: CSS for Components
     return (
         <>
             <div> - GamePage - </div>
