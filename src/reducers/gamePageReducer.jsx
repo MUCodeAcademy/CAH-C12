@@ -20,6 +20,10 @@ const gameReducer = (state, action) => {
       return { ...state, finished: true };
     case 'SET_LOBBY_ID':
       return { ...state, lobbyId: action.payload };
+    case 'JUDGE_SELECT_CARD':
+      return { ...state, judgeSelectedCard: action.payload };
+    case 'UPDATE_ROUND_WINNER':
+      return { ...state, players: action.payload };
     default:
       return state;
   }
