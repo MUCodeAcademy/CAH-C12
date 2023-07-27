@@ -4,7 +4,7 @@ const authRoutes = require("../server/routes/auth");
 const lobbyRoutes = require("../server/routes/lobby");
 const cors = require('cors');
 const app = express();
-const port = process.env.REACT_APP_DB_PORT;
+const port = 8080;
 const server = require("http").createServer(app);  
 const io = require("socket.io")(server, {
     cors: {
@@ -120,8 +120,8 @@ socket.on("send_message", (data) => {
         console.log("Client Disconnected");
     });
   });
-  server.listen(3306);
+  server.listen(8080);
 
-server.listen(port, () => {
-    console.log("App is listening at: " + port);
-});
+// server.listen(port, () => {
+//     console.log("App is listening at: " + port);
+// });

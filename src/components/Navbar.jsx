@@ -12,7 +12,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [auth, setAuth] = React.useState(true);
