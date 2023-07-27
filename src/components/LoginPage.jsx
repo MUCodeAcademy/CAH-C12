@@ -34,7 +34,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const port = process.env.REACT_APP_DB_PORT;
+const port = 8080;
 // const analytics = getAnalytics(app);
 
 
