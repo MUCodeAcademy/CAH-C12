@@ -120,8 +120,8 @@ socket.on("send_message", (data) => {
         console.log("Client Disconnected");
     });
   });
-  server.listen(3306);
+  server.listen(8080);
 
-server.listen(port, () => {
-    console.log("App is listening at: " + port);
-});
+//server.listen(port, () => {
+ //   console.log("App is listening at: " + port);
+//});
