@@ -31,7 +31,7 @@ function Lobby() {
 
   const [selectedTable, setSelectedTable] = useState(null);
   const userArray = [];
-  let isHost;
+  const [isHost, setIsHost] = useState(false);
   const [loading, setLoading] = useState(null);
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -57,7 +57,7 @@ function Lobby() {
       userArray.push(user.username);
       if(userArray.length === 1){
         //This means the new user is first and the host on there waiting screen display a button to start
-        isHost = true;
+        setIsHost(true);
         setLoading(true);
         console.log(`${user.username} is host`);
       } else if (userArray.length > 0 && userArray.length < 4){
