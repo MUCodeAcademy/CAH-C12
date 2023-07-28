@@ -15,13 +15,15 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
+import {CardSelectionScreen} from './CardSelection';
+import {JudgeScreen} from './judgescreen';
 
 export function GameDisplay(props) {
     //
 
     //TODO: Style a timer component to render below
     const [timer, setTimerActive] = useState(false);
+    const [isSelectingCard, setIsSelectingCard] = useState(false);
 
     const startTimer = () => {
         setTimerActive(true);
@@ -31,11 +33,13 @@ export function GameDisplay(props) {
         }, 20000);
     };
 
-    const handleCardSelection = (card) => {
+    const handleCardSelectionByPlayer = (card) => {
         if (!timer) {
            setSelectedCard(card);
            setTimerActive(false);
            startTimer();
+           setHasSelectedCard(true);
+           setIsSelecting(false);
         }
     };
     //const {playerSet} = useLobbyContext();
@@ -56,6 +60,9 @@ export function GameDisplay(props) {
     //currentJudgeIndex and currentPlayerIndex should compare on the same given array
     const [currentJudgeIndex, setCurrentJudgeIndex] = useState(0);
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+    
+
+    
 
     //TODO: Shift Display to Show Buttons on Cards to select a card
     const handleNextPlayer = () => {
@@ -149,14 +156,40 @@ export function GameDisplay(props) {
                     <Item>5</Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item><WhiteCardDisplay userCards={userCards} isPlaying={isPlaying}/></Item>
-                </Grid>
-                <Grid xs={3}>
-                    <Item>{isPlaying && '<Timer />'}</Item>
-                </Grid>
-            </Grid>
-        </Box>
-    )
+                    <Item><WhiteCardDisplay userCards={userCards} isPlaying={isPlaying}/>{/* Show timer and card selection buttons only during the player's turn */}
+            {isPlaying && currentPlayerIndex === yourPlayerIndex && (
+              <>
+                {/* Use the Timer component here */}
+                <Timer duration={20} onTimerExpired={handleTimerExpired} />
+
+                {/* Conditionally render the CardSelectionScreen */}
+                {isSelectingCard && (
+                  <CardSelectionScreen userCards={userCards} onSelectCard={handleCardSelectionByPlayer} />
+                )}
+
+                {/* Show a button to trigger card selection */}
+                {!isSelectingCard && (
+                  <button onClick={() => setIsSelectingCard(true)}>Select a Card</button>
+                )}
+
+                {/* Show a button to submit the selected card */}
+                {selectedCardByPlayer && (
+                  <button onClick={() => handleCardSubmission(selectedCardByPlayer)}>Submit Card</button>
+                )}
+              </>
+            )}
+          </Item>
+        </Grid>
+        <Grid xs={3}>
+          <Item>{isPlaying && <Timer duration={20} onTimerExpired={handleTimerExpired} />}</Item>
+        </Grid>
+      </Grid>
+      {/* Conditional rendering for JudgeScreen */}
+    {isPlaying && currentPlayerIndex.isJudge &&(
+      <JudgeScreen />
+    )}
+  </Box>
+);
 };
 
 export default GameDisplay;
