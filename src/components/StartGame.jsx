@@ -13,6 +13,7 @@ const socket = io('http://localhost:3001');
     { id: 4, name: 'Player 4' },
   ]);
 
+
   const [currentJudgeIndex, setCurrentJudgeIndex] = useState(0);
   const [cardsDealt, setCardsDealt] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -192,3 +193,5 @@ const socket = io('http://localhost:3001');
     </div>
   );
 }
+
+export default StartGame;
