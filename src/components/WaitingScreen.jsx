@@ -5,8 +5,6 @@ import { Button, Box, Grid, Card, CardContent, styled } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
 
-//TODO: Make isHost recieve as true (for host) and display the start game buttton
-
 export default function WaitingScreen(props) {
     const isHost = props.isHost;
     //const isHost = false;
