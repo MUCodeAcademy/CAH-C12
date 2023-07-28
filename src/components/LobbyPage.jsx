@@ -5,35 +5,22 @@ import { Typography } from '@mui/material';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from "react-router-dom";
 import WaitingScreen from './WaitingScreen';
+import { useLobbyContext } from '../context/LobbyContext';
 
 //TODO: Look at WaitingScreen
 //TODO: Finish CSS
 //TODO: Grab a player array from Lobby to give to GamePage
 //TODO: Check GamePage
 
-const GridItem = styled((props) => (
-  <Grid item xs {...props} /> ))
-  ({
-      margin: 0,
-      rowSpacing: 0.5,
-      columnSpacing: 0.5
-  })
-
-
 function Lobby() {
   const {user} = useUserContext();
-  const [tables, setTables] = useState([
-    { id: 1, name: 'Table 1' },
-    { id: 2, name: 'Table 2' },
-    { id: 3, name: 'Table 3' },
-  ]);
+  const {tables, joinTable, leaveTable} = useLobbyContext();
+  const navigate = useNavigate();
 
-
-  const [selectedTable, setSelectedTable] = useState(null);
   const userArray = [];
-  let isHost;
+  const [isHost, setIsHost] = useState(null);
+  const [selectedTable, setSelectedTable] = useState(null);
   const [loading, setLoading] = useState(null);
-  // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -41,29 +28,34 @@ function Lobby() {
   const handleOpen = () => {
     setOpen(true);
   };
-  const navigate = useNavigate();
+
+  //TODO: FIX THIS
+  //const tableArray = tables[selectedTable].length;
+  const tableArray = [];
+  const handleTemp = () => {
+    //joinTable(selectedTable, user);
+    tableArray.push(user);
+  }
   
-  const handleJoinTable = () => {
-    setSelectedTable(2);
+  const handleJoinTable = (props) => {
+    setSelectedTable(props);
     console.log("player from context: ", user);
     // console.log(userArray);
     // console.log(selectedTable);
-    
-
     if (selectedTable) {
       console.log(`Joined table ${selectedTable}`);
-      //joinTable(selectedTable, user);
-      console.log(user.username);
-      userArray.push(user.username);
-      if(userArray.length === 1){
+      //not working
+      handleTemp();
+      if(tableArray.length === 1){
         //This means the new user is first and the host on there waiting screen display a button to start
-        isHost = true;
+        setIsHost(true);
         setLoading(true);
         console.log(`${user.username} is host`);
-      } else if (userArray.length > 0 && userArray.length < 4){
+      } else if (tableArray.length > 0 && tableArray.length < 4){
         console.log("hit2");
+        setIsHost(false);
         setLoading(true);
-      } else if(userArray.length === 4){
+      } else if(tableArray.length === 4){
         //Start the game and route to GamePage
         navigate("/GamePage");
       }
@@ -76,8 +68,20 @@ function Lobby() {
     console.log(user.username);
   }, [userArray]);
 
-  //Still deciding whether it should be sepereate cards or not 
-  const Lobby = (
+  useEffect(() => {
+    //
+    console.log(`Table ${selectedTable} was updated`)
+  },[selectedTable]);
+
+  const GridItem = styled((props) => (
+    <Grid item xs {...props} /> ))
+    ({
+        margin: 0,
+        rowSpacing: 0.5,
+        columnSpacing: 0.5
+    })
+  
+  const LobbyOne = (
     <React.Fragment>
       <CardContent>
         <Typography variant="h5" component="div">
@@ -98,9 +102,59 @@ function Lobby() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => {
-          setSelectedTable()
-          handleJoinTable()}}>Join Lobby</Button>
+        <Button size="small" onClick={() => handleJoinTable(1)}>Join Lobby</Button>
+      </CardActions>
+    </React.Fragment>
+  );
+
+  const LobbyTwo = (
+    <React.Fragment>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Lobby 2
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Lobby
+        </Typography>
+        <Typography variant="body2">
+          <br />
+          <br />
+          Insert Player in lobby here
+          {userArray.map((username, index) => (
+            <GridItem key={index}>{username}</GridItem>
+          ))}
+          <br />
+          {'"a benevolent smile"'}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => handleJoinTable(2)}>Join Lobby</Button>
+      </CardActions>
+    </React.Fragment>
+  );
+
+  const LobbyThree = (
+    <React.Fragment>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Lobby 3
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Lobby
+        </Typography>
+        <Typography variant="body2">
+          <br />
+          <br />
+          Insert Player in lobby here
+          {userArray.map((username, index) => (
+            <GridItem key={index}>{username}</GridItem>
+          ))}
+          <br />
+          {'"a benevolent smile"'}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => handleJoinTable(1)}>Join Lobby</Button>
       </CardActions>
     </React.Fragment>
   );
@@ -109,20 +163,20 @@ function Lobby() {
     <div>
           <h1>Lobby</h1>
       <hr />
-      <Grid container spacing={8} justifyContent="center">
-          <Grid item>
-            <Card variant="outlined">{Lobby}</Card>
-          </Grid>
-          <Grid item>
-            <Card variant="outlined">{Lobby}</Card>
-          </Grid>
-          <Grid item>
-            <Card variant="outlined">{Lobby}</Card>
-          </Grid>
-          {loading ? <WaitingScreen isHost={isHost}/> : 
-            <div></div>
-          }
-      </Grid>
+      {loading ? <WaitingScreen isHost={isHost}/> : 
+         <Grid container spacing={8} justifyContent="center">
+            <Grid item>
+              <Card variant="outlined">{LobbyOne}</Card>
+            </Grid>
+            <Grid item>
+              <Card variant="outlined">{LobbyTwo}</Card>
+            </Grid>
+            <Grid item>
+              <Card variant="outlined">{LobbyThree}</Card>
+            </Grid>
+        </Grid>   
+      }
+      
     </div>
   );
 }
