@@ -6,8 +6,10 @@ import { PromptHandler, UserHandler } from '../cards/CardHandler';
 import { Paper, Box } from '@mui/material';
 import { WinDisplay } from './WinDisplay';
 import { useCardDisplayContext } from '../context/CardDisplayContext';
+import JudgeScreen from '../components/judgescreen';
+//import {CardSelectionScreen} from './CardSelection';
 //import { start } from 'repl';
-import {Timer} from './Timer';
+import Timer from '../components/Timer';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -15,8 +17,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-import {CardSelectionScreen} from './CardSelection';
-import {JudgeScreen} from './judgescreen';
 
 export function GameDisplay(props) {
     //
@@ -33,15 +33,15 @@ export function GameDisplay(props) {
         }, 20000);
     };
 
-    const handleCardSelectionByPlayer = (card) => {
-        if (!timer) {
-           setSelectedCard(card);
-           setTimerActive(false);
-           startTimer();
-           setHasSelectedCard(true);
-           setIsSelecting(false);
-        }
-    };
+    // const handleCardSelectionByPlayer = (card) => {
+    //     if (!timer) {
+    //        setSelectedCard(card);
+    //        setTimerActive(false);
+    //        startTimer();
+    //        setHasSelectedCard(true);
+    //        setIsSelecting(false);
+    //     }
+    // };
     //const {playerSet} = useLobbyContext();
     const [playersSet, setPlayersSet] = useState([]);
     //This is sorted and output as ranks[];
@@ -157,27 +157,6 @@ export function GameDisplay(props) {
                 </Grid>
                 <Grid xs={6}>
                     <Item><WhiteCardDisplay userCards={userCards} isPlaying={isPlaying}/>{/* Show timer and card selection buttons only during the player's turn */}
-            {isPlaying && currentPlayerIndex === yourPlayerIndex && (
-              <>
-                {/* Use the Timer component here */}
-                <Timer duration={20} onTimerExpired={handleTimerExpired} />
-
-                {/* Conditionally render the CardSelectionScreen */}
-                {isSelectingCard && (
-                  <CardSelectionScreen userCards={userCards} onSelectCard={handleCardSelectionByPlayer} />
-                )}
-
-                {/* Show a button to trigger card selection */}
-                {!isSelectingCard && (
-                  <button onClick={() => setIsSelectingCard(true)}>Select a Card</button>
-                )}
-
-                {/* Show a button to submit the selected card */}
-                {selectedCardByPlayer && (
-                  <button onClick={() => handleCardSubmission(selectedCardByPlayer)}>Submit Card</button>
-                )}
-              </>
-            )}
           </Item>
         </Grid>
         <Grid xs={3}>
@@ -185,11 +164,35 @@ export function GameDisplay(props) {
         </Grid>
       </Grid>
       {/* Conditional rendering for JudgeScreen */}
-    {isPlaying && currentPlayerIndex.isJudge &&(
-      <JudgeScreen />
-    )}
   </Box>
 );
 };
+
+// {isPlaying && currentPlayerIndex.isJudge &&(
+//     <JudgeScreen playersSet={playersSet} currentJudgeIndex={currentJudgeIndex} />
+//   )}
+
+
+// {isPlaying && (
+//     <>
+//       {/* Use the Timer component here */}
+//       <Timer duration={20} onTimerExpired={handleTimerExpired} />
+
+//       {/* Conditionally render the CardSelectionScreen */}
+//       {isSelectingCard && (
+//         <CardSelectionScreen userCards={userCards} onSelectCard={handleCardSelectionByPlayer} />
+//       )}
+
+//       {/* Show a button to trigger card selection */}
+//       {!isSelectingCard && (
+//         <button onClick={() => setIsSelectingCard(true)}>Select a Card</button>
+//       )}
+
+//       {/* Show a button to submit the selected card */}
+//       {selectedCardByPlayer && (
+//         <button onClick={() => handleCardSubmission(selectedCardByPlayer)}>Submit Card</button>
+//       )}
+//     </>
+//   )}
 
 export default GameDisplay;

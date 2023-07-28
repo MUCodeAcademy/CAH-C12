@@ -1,15 +1,14 @@
 import React from 'react';
-import { useGameContext } from '../path/to/gameReducer.js'; 
 
-const JudgeScreen = () => {
-  const { state, dispatch } = useGameContext();
-  const { players, currentPlayerIndex } = state;
-  const currentPlayer = players[currentPlayerIndex];
+
+const JudgeScreen = (props) => {
+  const players = props.playersSet;
+  const currentPlayer = props.currentJudgeIndex;
   const isJudge = currentPlayer.isJudge; 
 
   const handleJudgeSelection = (selectedCard) => {
     // Dispatch an action to update the game state with the judge's selection
-    dispatch({ type: 'JUDGE_SELECT_CARD', payload: selectedCard });
+    // TEMP COMMENT dispatch({ type: 'JUDGE_SELECT_CARD', payload: selectedCard });
 
     // Determine the round winner based on the judge's selection
     const roundWinnerIndex = players.findIndex((player) => player.selectedCard === selectedCard);
@@ -20,7 +19,7 @@ const JudgeScreen = () => {
     }));
 
     // Update the game state with the round winner and other changes
-    dispatch({ type: 'UPDATE_ROUND_WINNER', payload: updatedPlayers });
+    // TEMP COMMENT dispatch({ type: 'UPDATE_ROUND_WINNER', payload: updatedPlayers });
 
     
   };
