@@ -1,4 +1,4 @@
-export const INITIAL_GAMEDISPLAY_STATE = [];
+export const INITIAL_GAMEDISPLAY_STATE = null;
 export const SET_IS_PLAYING = "Set Game State";
 export const CLEAR_IS_PLAYING = "Clear Game State";
 

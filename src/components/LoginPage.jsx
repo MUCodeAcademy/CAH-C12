@@ -22,7 +22,6 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth';
 //axios
 import axios from 'axios';
-import { FormControl, FormLabel } from '@mui/material';
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5UnogGBXCUCoBhfov3c6YFXLWSTk0vag",
@@ -35,7 +34,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const port = process.env.REACT_APP_DB_PORT;
+const port = 8080;
 // const analytics = getAnalytics(app);
 
 
@@ -55,7 +54,6 @@ function Copyright(props) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
-// TODO Routes to Lobby
 
 const defaultTheme = createTheme();
 

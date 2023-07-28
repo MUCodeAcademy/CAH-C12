@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import { BlackCardDisplay, WhiteCardDisplay } from '../cards/CardDisplay';
 import { PromptHandler, UserHandler } from '../cards/CardHandler';
-import { Button, Paper, Box } from '@mui/material';
+import { Paper, Box } from '@mui/material';
 import { WinDisplay } from './WinDisplay';
 import { useCardDisplayContext } from '../context/CardDisplayContext';
-
+import JudgeScreen from '../components/judgescreen';
+//import {CardSelectionScreen} from './CardSelection';
+//import { start } from 'repl';
+import Timer from '../components/Timer';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -15,76 +18,95 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-
-export function GameDisplay() {
+export function GameDisplay(props) {
     //
 
-    //TODO: make a timer component to render below
+    //TODO: Style a timer component to render below
+    const [timer, setTimerActive] = useState(false);
+    const [isSelectingCard, setIsSelectingCard] = useState(false);
 
-const [playersSet, setPlayersSet] = useState([]);
-//const {playerSet} = useLobbyContext();
-const [userScores] = [0,0,0,0];
-//This is sorted and output as ranks[]
+    const startTimer = () => {
+        setTimerActive(true);
+        setTimeout(() => {
+            setTimerActive(false);
+            handleTimerExpired();
+        }, 20000);
+    };
 
-//This is for a function yet to be made but detailed in the Body
-const {selectedCard, setSelectedCard} = useCardDisplayContext();
-const previousSelectedCard = "";
+    // const handleCardSelectionByPlayer = (card) => {
+    //     if (!timer) {
+    //        setSelectedCard(card);
+    //        setTimerActive(false);
+    //        startTimer();
+    //        setHasSelectedCard(true);
+    //        setIsSelecting(false);
+    //     }
+    // };
+    //const {playerSet} = useLobbyContext();
+    const [playersSet, setPlayersSet] = useState([]);
+    //This is sorted and output as ranks[];
+    const [userScores] = [0,0,0,0];
+    
+    //Game State
+    const [isPlaying, setIsPlaying] = useState(false);
 
-const [userCards,setUserCards] = useState(PromptHandler);
-const [promptCard,setPromptCard] = useState(UserHandler);
-const [sumbittedCards, setSubmittedCard] = useState([]);
+    //Card State
+    const [userCards,setUserCards] = useState(PromptHandler);
+    const [promptCard,setPromptCard] = useState(UserHandler);
+    const [sumbittedCards, setSubmittedCard] = useState([]);
+    const {selectedCard, setSelectedCard} = useCardDisplayContext();
+    // TEMP COMMENT const previousSelectedCard = "";
+    //Index State
+    //currentJudgeIndex and currentPlayerIndex should compare on the same given array
+    const [currentJudgeIndex, setCurrentJudgeIndex] = useState(0);
+    const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+    
 
-//This is playersTurn and should be sent to state (make it isPlaying)
-const [isPlaying, setIsPlaying] = useState(false);
+    
 
-//all State Vars imported from StartGame
-//currentJudgeIndex and currentPlayerIndex should compare on the same given array
-const [currentJudgeIndex, setCurrentJudgeIndex] = useState(0);
-const [cardsDealt, setCardsDealt] = useState(false);
-const [gameStarted, setGameStarted] = useState(false);
-const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+    //TODO: Shift Display to Show Buttons on Cards to select a card
+    const handleNextPlayer = () => {
+        //This should change the display as well 
+        //Shifting the timer and button to the next player in "playersSet"
+        //Should also check if player is judge if so skip them
+        setIsPlaying(false);
+        if(currentJudgeIndex !== ((currentPlayerIndex + 1) % playersSet.length)){
+            //
+            setCurrentPlayerIndex((currentPlayerIndex) = (currentPlayerIndex + 1) % playersSet.length);
+        } else {
+            setCurrentPlayerIndex((currentPlayerIndex) = (currentPlayerIndex + 2) % playersSet.length);
+        }
+    };
 
-const handleNextPlayer = () => {
-    //This should change the display as well 
-    //Shifting the timer and button to the next player in "playersSet"
-    //Should also check if player is judge if so skip them
-    setIsPlaying(false);
-    if(currentJudgeIndex !== ((currentPlayerIndex + 1) % playersSet.length)){
-        //
-        setCurrentPlayerIndex((currentPlayerIndex) = (currentPlayerIndex + 1) % playersSet.length);
-    } else {
-        setCurrentPlayerIndex((currentPlayerIndex) = (currentPlayerIndex + 2) % playersSet.length);
-    }
-};
-
+    //TODO: handleSubmission should call this when the Card Zar display is ready ( with array[cards])
     const handleNextJudge = () => {
         //This should hold some info on displaying the prompt 
         setCurrentJudgeIndex((currentJudgeIndex) = (currentJudgeIndex + 1) % playersSet.length);
     };
 
+    
     //TODO : card should be an object with the text(for card display) & playerId (who played it)
-
-const handleSubmitions = (card) => {
-    setSubmittedCard([...sumbittedCards, card]);
-    if(sumbittedCards.length === 4){
-        //Send the Cards to the Card Zar
-        //Change displays should be handled in here as well
-        //Something will be passed up to GamePage.
-        userScores[currentPlayerIndex] = userScores[currentPlayerIndex] + 1;
-        if(userScores[currentPlayerIndex] === 7){
-            let finalScores = [];
-            for(let i = 0;i < userScores.length; i++){
-                if(userScores[i] > userScores[((i+1)%playersSet.length)]){
-                    finalScores.push(userScores[i]);
-                };
+    //TODO : an Idea is to always keep the index of them the same player users=[playerone]   scores=[playerone's score]
+    const handleSubmission = (card) => {
+        //Order user cards
+        setSubmittedCard([...sumbittedCards, card]);
+        if(sumbittedCards.length === 4){
+            //Send the Cards to the Card Zar
+            userScores[currentPlayerIndex] = userScores[currentPlayerIndex] + 1;
+            if(userScores[currentPlayerIndex] === 7){
+                let finalScores = [];
+                for(let i = 0;i < userScores.length; i++){
+                    if(userScores[i] > userScores[((i+1)%playersSet.length)]){
+                        finalScores.push(userScores[i]);
+                    };
+                }
+                //TODO: Pass the array ranks[] to GamePage
             }
-	        //Pass array of scores into the conditonal render
-	        //Display <WinDisplay/> in GamePage
-        }
+        };
+        handleNextPlayer((currentJudgeIndex + 1)%playersSet.length);
+        handleNextJudge(currentJudgeIndex);
+
     };
-    handleNextPlayer((currentJudgeIndex + 1)%playersSet.length);
-    handleNextJudge(currentJudgeIndex);
-};
 
     function displayHands(promptCard,userCards){
         //
@@ -92,23 +114,23 @@ const handleSubmitions = (card) => {
         setUserCards(userCards);
     }
 
+    const handleTimerExpired = () => {
+        if (selectedCard) {
+            handleSubmission(selectedCard);
+        }
+    };
 
-function gameState() {
-    // This for the inital render and setting of Cards Zar and first player  
-    
-}
+    const handleStart = () => {
+        setIsPlaying(props.isPlaying);
+    }
 
-function GameDisplay(props) {
-    // Make a useEffect or while statement to check playersTurn 
-    // Since it's at state we should reset it after the player selects a card in CardDisplay
-    // When playersTurn = false
+
+    //TODO: Get the card text from WhiteCardDisplay when the card is selected
     // if(selectedCard === null || selectedCard === previousSelectedCard){
-    //    console.error("Error get Selected User's Card")
+    //    console.error("Error getting Selected User's Card")
     //} else {
-    //      handleSubmittion(selectedCard);
+    //      handleSubmission(selectedCard);
     //}
-    setIsPlaying(props.isPlaying);
-
     return(
         <Box sx={{ width: '100%' }}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -125,7 +147,7 @@ function GameDisplay(props) {
                     <Item>Player 2's Cards</Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item><BlackCardDisplay promptCard={promptCard}/></Item>
+                    <Item><BlackCardDisplay promptCard={promptCard} isPlaying={isPlaying}/></Item>
                 </Grid>
                 <Grid xs={4}>
                     <Item>Player 4's Cards</Item>
@@ -134,14 +156,43 @@ function GameDisplay(props) {
                     <Item>5</Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item><WhiteCardDisplay userCards={userCards}/></Item>
-                </Grid>
-                <Grid xs={3}>
-                    <Item>{isPlaying && '<Timer />'}</Item>
-                </Grid>
-            </Grid>
-        </Box>
-    )}
+                    <Item><WhiteCardDisplay userCards={userCards} isPlaying={isPlaying}/>{/* Show timer and card selection buttons only during the player's turn */}
+          </Item>
+        </Grid>
+        <Grid xs={3}>
+          <Item>{isPlaying && <Timer duration={20} onTimerExpired={handleTimerExpired} />}</Item>
+        </Grid>
+      </Grid>
+      {/* Conditional rendering for JudgeScreen */}
+  </Box>
+);
 };
+
+// {isPlaying && currentPlayerIndex.isJudge &&(
+//     <JudgeScreen playersSet={playersSet} currentJudgeIndex={currentJudgeIndex} />
+//   )}
+
+
+// {isPlaying && (
+//     <>
+//       {/* Use the Timer component here */}
+//       <Timer duration={20} onTimerExpired={handleTimerExpired} />
+
+//       {/* Conditionally render the CardSelectionScreen */}
+//       {isSelectingCard && (
+//         <CardSelectionScreen userCards={userCards} onSelectCard={handleCardSelectionByPlayer} />
+//       )}
+
+//       {/* Show a button to trigger card selection */}
+//       {!isSelectingCard && (
+//         <button onClick={() => setIsSelectingCard(true)}>Select a Card</button>
+//       )}
+
+//       {/* Show a button to submit the selected card */}
+//       {selectedCardByPlayer && (
+//         <button onClick={() => handleCardSubmission(selectedCardByPlayer)}>Submit Card</button>
+//       )}
+//     </>
+//   )}
 
 export default GameDisplay;
