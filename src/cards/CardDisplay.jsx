@@ -79,9 +79,9 @@ export const WhiteCardDisplay = (props) => {
     const { selectedCard, setSelectedCard } = useCardDisplayContext();
 
 
-    useEffect(() => {
-        console.log(selectedCard.key)
-    }, [selectedCard]);
+    // useEffect(() => {
+    //     console.log(selectedCard.key)
+    // }, [selectedCard]);
     return (
       <Box>
         <Grid container>

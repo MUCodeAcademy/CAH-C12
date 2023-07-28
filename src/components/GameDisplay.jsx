@@ -51,7 +51,7 @@ export function GameDisplay(props) {
     const [promptCard,setPromptCard] = useState(UserHandler);
     const [sumbittedCards, setSubmittedCard] = useState([]);
     const {selectedCard, setSelectedCard} = useCardDisplayContext();
-    const previousSelectedCard = "";
+    // TEMP COMMENT const previousSelectedCard = "";
     //Index State
     //currentJudgeIndex and currentPlayerIndex should compare on the same given array
     const [currentJudgeIndex, setCurrentJudgeIndex] = useState(0);
@@ -113,6 +113,10 @@ export function GameDisplay(props) {
         }
     };
 
+    const handleStart = () => {
+        setIsPlaying(props.isPlaying);
+    }
+
 
     //TODO: Get the card text from WhiteCardDisplay when the card is selected
     // if(selectedCard === null || selectedCard === previousSelectedCard){
@@ -120,8 +124,6 @@ export function GameDisplay(props) {
     //} else {
     //      handleSubmission(selectedCard);
     //}
-    setIsPlaying(props.isPlaying);
-
     return(
         <Box sx={{ width: '100%' }}>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

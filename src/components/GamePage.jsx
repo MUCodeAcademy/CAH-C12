@@ -58,26 +58,6 @@ export default function GamePage(props) {
 
 
     //TODO: CSS for Components
-    // return (
-    //     <>
-    //         <div> - GamePage - </div>
-    //         <Rules />
-    //        {started &&  
-    //         <div>
-    //             {isPlaying 
-    //                 ?<GameDisplay playerArray={playerArray} isPlaying={true}/> 
-    //                 :<GameDisplay isPlaying={false}/>
-    //             }
-    //         </div>
-    //         }
-    //         {finished && 
-    //         <div>
-    //             This is a temp for ending the game
-    //             <WinDisplay ranks={[]}/>
-    //         </div>
-    //         }
-    //     </>
-    // );
     return (
         <>
             <div> - GamePage - </div>
@@ -86,7 +66,7 @@ export default function GamePage(props) {
             <div>
                 {isPlaying 
                     ?<GameDisplay playerArray={playerArray} isPlaying={true}/> 
-                    : <div></div>
+                    :<GameDisplay isPlaying={false}/>
                 }
             </div>
             }
